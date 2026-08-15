@@ -301,42 +301,94 @@
 
   <script>
 
-    function login() {
+  function login() {
 
-  const identifier =
-    document.getElementById("identifier").value.trim();
+    const identifier =
+      document.getElementById("identifier").value.trim();
 
-  const password =
-    document.getElementById("password").value;
+    const password =
+      document.getElementById("password").value;
 
-  if (!identifier || !password) {
-    alert("Please enter your phone number/email and password.");
-    return;
+    if (!identifier || !password) {
+      alert("Please enter your phone number/email and password.");
+      return;
+    }
+
+    window.location.href = "dashboard.html";
   }
 
-    // Temporary demo navigation.
-  // Real authentication will be handled by the secure backend.
-  window.location.href = "dashboard.html";
-}
 
-</script>
+  function togglePassword() {
 
-<script>
+    const passwordInput =
+      document.getElementById("password");
+
+    const button =
+      document.querySelector(".show-password");
+
+    if (passwordInput.type === "password") {
+
+      passwordInput.type = "text";
+      button.textContent = "Hide";
+
+    } else {
+
+      passwordInput.type = "password";
+      button.textContent = "Show";
+
+    }
+  }
+
+
+  function forgotPassword() {
+
+    alert("Password recovery will be connected securely.");
+
+  }
+
+
+  function createAccount() {
+
+    window.location.href = "create.html";
+
+  }
+
+
+  function goBack() {
+
+    window.location.href = "index.html";
+
+  }
+
+
+  // OVARA PWA
+
   if ("serviceWorker" in navigator) {
+
     window.addEventListener("load", () => {
+
       navigator.serviceWorker.register("./sw.js")
+
         .then(() => {
+
           console.log("OVARA service worker registered.");
+
         })
+
         .catch(error => {
+
           console.error(
             "OVARA service worker registration failed:",
             error
           );
+
         });
+
     });
+
   }
-</script> 
+
+</script>
 
 </body>
 </html>

@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="OVARA secure multi-currency banking platform">
+  <meta name="theme-color" content="#0b0f19">
+  <title>OVARA — Banking</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #0b0f19;
+      color: #ffffff;
+      min-height: 100vh;
+    }
+
+    .app {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      padding: 22px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 27px;
+      font-weight: 800;
+      letter-spacing: 2px;
+    }
+
+    .secure {
+      font-size: 13px;
+      color: #aeb7c7;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 30px 20px 50px;
+    }
+
+    .hero {
+      width: 100%;
+      max-width: 430px;
+      text-align: center;
+    }
+
+    .lock {
+      width: 76px;
+      height: 76px;
+      margin: 0 auto 25px;
+      border-radius: 50%;
+      background: #151c2b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      border: 1px solid #273149;
+    }
+
+    h1 {
+      font-size: 38px;
+      line-height: 1.1;
+      margin-bottom: 15px;
+    }
+
+    .subtitle {
+      color: #aeb7c7;
+      line-height: 1.6;
+      font-size: 15px;
+      margin-bottom: 30px;
+    }
+
+    .currencies {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-bottom: 30px;
+    }
+
+    .currency {
+      background: #111827;
+      border: 1px solid #202b40;
+      border-radius: 14px;
+      padding: 15px;
+      text-align: left;
+    }
+
+    .currency strong {
+      display: block;
+      font-size: 15px;
+      margin-bottom: 5px;
+    }
+
+    .currency span {
+      color: #8f9bb0;
+      font-size: 13px;
+    }
+
+    .buttons {
+      display: grid;
+      gap: 12px;
+    }
+
+    button {
+      width: 100%;
+      padding: 16px;
+      border-radius: 12px;
+      border: none;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .primary {
+      background: #ffffff;
+      color: #0b0f19;
+    }
+
+    .secondary {
+      background: #151c2b;
+      color: #ffffff;
+      border: 1px solid #29344a;
+    }
+
+    .security {
+      margin-top: 25px;
+      color: #7f8ba0;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #69758a;
+      font-size: 12px;
+    }
+
+    @media (max-width: 380px) {
+      h1 {
+        font-size: 32px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="app">
+
+    <header>
+      <div class="logo">OVARA</div>
+      <div class="secure">🔐 Secure Banking</div>
+    </header>
+
+    <main>
+      <section class="hero">
+
+        <div class="lock">🔐</div>
+
+        <h1>Your money.<br>One secure place.</h1>
+
+        <p class="subtitle">
+          Manage your money across four currencies with OVARA.
+          Built for secure everyday banking.
+        </p>
+
+        <div class="currencies">
+
+          <div class="currency">
+            <strong>🇳🇬 NGN Account</strong>
+            <span>Nigerian Naira</span>
+          </div>
+
+          <div class="currency">
+            <strong>🇺🇸 USD Account</strong>
+            <span>US Dollar</span>
+          </div>
+
+          <div class="currency">
+            <strong>🇬🇧 GBP Account</strong>
+            <span>British Pound</span>
+          </div>
+
+          <div class="currency">
+            <strong>🇪🇺 EUR Account</strong>
+            <span>Euro</span>
+          </div>
+
+        </div>
+
+        <div class="buttons">
+          <button class="primary" onclick="createAccount()">
+            Create OVARA Account
+          </button>
+
+          <button class="secondary" onclick="login()">
+            Log In
+          </button>
+        </div>
+
+        <p class="security">
+          OVARA uses layered security, transaction monitoring,
+          additional verification for unusual activity,
+          and secure authentication.
+        </p>
+
+      </section>
+    </main>
+
+    <footer>
+      © 2026 OVARA. All rights reserved.
+    </footer>
+
+  </div>
+
+  <script>
+    function createAccount() {
+      alert("Account creation will be connected to the secure OVARA authentication system.");
+    }
+
+    function login() {
+      alert("Login will be connected to the secure OVARA authentication system.");
+    }
+  </script>
+
+</body>
+  </html>

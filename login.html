@@ -205,6 +205,11 @@
       line-height: 1.5;
     }
   </style>
+<link rel="manifest" href="manifest.json">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="OVARA">
+  
 </head>
 
 <body>
@@ -313,7 +318,22 @@
   // Real authentication will be handled by the secure backend.
   window.location.href = "dashboard.html";
     }
-  </script>
+ <script>
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("./sw.js")
+        .then(() => {
+          console.log("OVARA service worker registered.");
+        })
+        .catch(error => {
+          console.error(
+            "OVARA service worker registration failed:",
+            error
+          );
+        });
+    });
+  }
+</script> 
 
 </body>
 </html>

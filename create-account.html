@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Create your secure OVARA account">
+  <meta name="theme-color" content="#0b0f19">
+  <title>Create Account — OVARA</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #0b0f19;
+      color: #ffffff;
+      min-height: 100vh;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 520px;
+      margin: auto;
+      padding: 25px 20px 50px;
+    }
+
+    .top {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+
+    .back {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: 1px solid #29344a;
+      background: #151c2b;
+      color: #ffffff;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    .logo {
+      font-size: 25px;
+      font-weight: 800;
+      letter-spacing: 2px;
+    }
+
+    h1 {
+      font-size: 30px;
+      margin-bottom: 8px;
+    }
+
+    .intro {
+      color: #9ba7ba;
+      font-size: 14px;
+      line-height: 1.6;
+      margin-bottom: 28px;
+    }
+
+    .section {
+      margin-bottom: 25px;
+    }
+
+    .section-title {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 15px;
+    }
+
+    .field {
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      color: #c3cada;
+      margin-bottom: 7px;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 15px;
+      border-radius: 11px;
+      border: 1px solid #29344a;
+      background: #111827;
+      color: #ffffff;
+      font-size: 15px;
+      outline: none;
+    }
+
+    input:focus,
+    select:focus {
+      border-color: #ffffff;
+    }
+
+    .hint {
+      margin-top: 6px;
+      color: #718096;
+      font-size: 11px;
+      line-height: 1.5;
+    }
+
+    .alert-box {
+      background: #111827;
+      border: 1px solid #202b40;
+      border-radius: 13px;
+      padding: 17px;
+      margin-bottom: 14px;
+    }
+
+    .alert-title {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .alert-description {
+      color: #8793a7;
+      font-size: 12px;
+      line-height: 1.5;
+      margin-bottom: 12px;
+    }
+
+    .choice {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 9px;
+    }
+
+    .choice input {
+      width: auto;
+      accent-color: #ffffff;
+    }
+
+    .choice label {
+      margin: 0;
+      font-size: 13px;
+      color: #d3d9e3;
+    }
+
+    .security {
+      background: #151c2b;
+      border: 1px solid #29344a;
+      border-radius: 13px;
+      padding: 16px;
+      margin-bottom: 25px;
+    }
+
+    .security strong {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 14px;
+    }
+
+    .security p {
+      color: #929daf;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .terms {
+      display: flex;
+      gap: 9px;
+      align-items: flex-start;
+      margin-bottom: 20px;
+    }
+
+    .terms input {
+      width: auto;
+      margin-top: 3px;
+    }
+
+    .terms label {
+      font-size: 12px;
+      line-height: 1.5;
+      color: #8e9aae;
+    }
+
+    .create-btn {
+      width: 100%;
+      padding: 16px;
+      border: none;
+      border-radius: 12px;
+      background: #ffffff;
+      color: #0b0f19;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .login-link {
+      text-align: center;
+      margin-top: 20px;
+      color: #8e9aae;
+      font-size: 13px;
+    }
+
+    .login-link button {
+      background: none;
+      border: none;
+      color: #ffffff;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .footer {
+      text-align: center;
+      color: #667286;
+      font-size: 11px;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="container">
+
+    <div class="top">
+      <button class="back" onclick="goBack()">‹</button>
+      <div class="logo">OVARA</div>
+    </div>
+
+    <h1>Create your account</h1>
+
+    <p class="intro">
+      Open your OVARA account and manage your NGN, USD, GBP and EUR
+      accounts from one secure dashboard.
+    </p>
+
+    <!-- PERSONAL INFORMATION -->
+
+    <section class="section">
+
+      <div class="section-title">Personal information</div>
+
+      <div class="field">
+        <label for="fullName">Full name</label>
+        <input
+          type="text"
+          id="fullName"
+          placeholder="Enter your full name"
+          autocomplete="name"
+          required
+        >
+      </div>
+
+      <div class="field">
+        <label for="phone">Phone number</label>
+        <input
+          type="tel"
+          id="phone"
+          placeholder="+234 800 000 0000"
+          autocomplete="tel"
+          required
+        >
+        <div class="hint">
+          Your phone number will be verified before your account is activated.
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="email">Email address</label>
+        <input
+          type="email"
+          id="email"
+          placeholder="you@example.com"
+          autocomplete="email"
+          required
+        >
+        <div class="hint">
+          Required for security notifications and account recovery.
+        </div>
+      </div>
+
+    </section>
+
+    <!-- LOGIN SECURITY -->
+
+    <section class="section">
+
+      <div class="section-title">Account security</div>
+
+      <div class="field">
+        <label for="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          placeholder="Create a strong password"
+          autocomplete="new-password"
+          required
+        >
+      </div>
+
+      <div class="field">
+        <label for="pin">Transaction PIN</label>
+        <input
+          type="password"
+          id="pin"
+          inputmode="numeric"
+          maxlength="6"
+          placeholder="Create a 6-digit PIN"
+          autocomplete="off"
+          required
+        >
+        <div class="hint">
+          Your transaction PIN will be required for sensitive transactions.
+        </div>
+      </div>
+
+    </section>
+
+    <!-- TRANSACTION ALERTS -->
+
+    <section class="section">
+
+      <div class="section-title">Transaction alerts</div>
+
+      <div class="alert-box">
+
+        <div class="alert-title">Debit alerts</div>
+
+        <div class="alert-description">
+          Choose how OVARA should notify you when money leaves your account.
+        </div>
+
+        <div class="choice">
+          <input type="radio" name="debitAlert" id="debitEmail" value="email" checked>
+          <label for="debitEmail">Email</label>
+        </div>
+
+        <div class="choice">
+          <input type="radio" name="debitAlert" id="debitSms" value="sms">
+          <label for="debitSms">SMS</label>
+        </div>
+
+        <div class="choice">
+          <input type="radio" name="debitAlert" id="debitBoth" value="both">
+          <label for="debitBoth">Email + SMS</label>
+        </div>
+
+      </div>
+
+      <div class="alert-box">
+
+        <div class="alert-title">Credit alerts</div>
+
+        <div class="alert-description">
+          Choose how OVARA should notify you when money enters your account.
+        </div>
+
+        <div class="choice">
+          <input type="radio" name="creditAlert" id="creditEmail" value="email" checked>
+          <label for="creditEmail">Email</label>
+        </div>
+
+        <div class="choice">
+          <input type="radio" name="creditAlert" id="creditSms" value="sms">
+          <label for="creditSms">SMS</label>
+        </div>
+
+        <div class="choice">
+          <input type="radio" name="creditAlert" id="creditBoth" value="both">
+          <label for="creditBoth">Email + SMS</label>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- SECURITY NOTIFICATION -->
+
+    <div class="security">
+
+      <strong>🚨 Transaction risk alerts</strong>
+
+      <p>
+        OVARA will automatically send security notifications to your
+        registered email address when unusual or potentially risky
+        activity is detected. These alerts cannot be disabled.
+      </p>
+
+    </div>
+
+    <!-- TERMS -->
+
+    <div class="terms">
+
+      <input type="checkbox" id="terms">
+
+      <label for="terms">
+        I agree to OVARA's Terms of Service, Privacy Policy and
+        security requirements.
+      </label>
+
+    </div>
+
+    <button class="create-btn" onclick="createAccount()">
+      Create OVARA Account
+    </button>
+
+    <div class="login-link">
+      Already have an account?
+      <button onclick="goToLogin()">Log in</button>
+    </div>
+
+    <div class="footer">
+      🔐 Your information will be processed through OVARA's secure
+      authentication system.
+    </div>
+
+  </main>
+
+  <script>
+
+    function goBack() {
+      window.location.href = "index.html";
+    }
+
+    function goToLogin() {
+      window.location.href = "login.html";
+    }
+
+    function createAccount() {
+
+      const fullName = document.getElementById("fullName").value.trim();
+      const phone = document.getElementById("phone").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+      const pin = document.getElementById("pin").value;
+      const terms = document.getElementById("terms").checked;
+
+      if (!fullName || !phone || !email || !password || !pin) {
+        alert("Please complete all required fields.");
+        return;
+      }
+
+      if (pin.length !== 6 || !/^\d+$/.test(pin)) {
+        alert("Your transaction PIN must contain exactly 6 digits.");
+        return;
+      }
+
+      if (!terms) {
+        alert("Please accept the OVARA terms and security requirements.");
+        return;
+      }
+
+      alert(
+        "Account registration will be connected to the secure OVARA backend."
+      );
+    }
+
+  </script>
+
+</body>
+</html>

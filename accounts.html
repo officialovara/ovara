@@ -417,27 +417,18 @@
   <script>
 
     function goBack() {
-      window.location.href = "dashboard.html";
-    }
+  window.location.href = "dashboard.html";
+}
 
-
-    function openAccount(currency) {
-
-      const messages = {
-        NGN: "NGN account details and Nigerian banking connection will be added here.",
-        USD: "USD receiving and account details will be connected here.",
-        GBP: "GBP receiving and account details will be connected here.",
-        EUR: "EUR receiving and account details will be connected here."
-      };
-
-      alert(messages[currency]);
-    }
+function openAccount(currency) {
+  window.location.href = `account.html?currency=${currency}`;
+}
 
 
     // OVARA PWA
 
     if ("serviceWorker" in navigator) {
-
+ 
       window.addEventListener("load", () => {
 
         navigator.serviceWorker.register("./sw.js")

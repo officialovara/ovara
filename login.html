@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Secure OVARA login">
+  <meta name="theme-color" content="#0b0f19">
+  <title>Log In — OVARA</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #0b0f19;
+      color: #ffffff;
+      min-height: 100vh;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 430px;
+      margin: auto;
+      padding: 28px 20px 45px;
+    }
+
+    .top {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 55px;
+    }
+
+    .back {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: 1px solid #29344a;
+      background: #151c2b;
+      color: #ffffff;
+      font-size: 22px;
+      cursor: pointer;
+    }
+
+    .logo {
+      font-size: 25px;
+      font-weight: 800;
+      letter-spacing: 2px;
+    }
+
+    .security-icon {
+      width: 70px;
+      height: 70px;
+      margin: 0 auto 22px;
+      border-radius: 50%;
+      background: #151c2b;
+      border: 1px solid #29344a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 30px;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 30px;
+      margin-bottom: 10px;
+    }
+
+    .intro {
+      text-align: center;
+      color: #929daf;
+      font-size: 14px;
+      line-height: 1.6;
+      margin-bottom: 30px;
+    }
+
+    .field {
+      margin-bottom: 17px;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      color: #c6cedb;
+      margin-bottom: 7px;
+    }
+
+    .password-wrapper {
+      position: relative;
+    }
+
+    input {
+      width: 100%;
+      padding: 15px;
+      padding-right: 50px;
+      border-radius: 11px;
+      border: 1px solid #29344a;
+      background: #111827;
+      color: #ffffff;
+      font-size: 15px;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: #ffffff;
+    }
+
+    .show-password {
+      position: absolute;
+      right: 13px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: #8f9bb0;
+      cursor: pointer;
+      font-size: 13px;
+    }
+
+    .forgot {
+      text-align: right;
+      margin-top: -4px;
+      margin-bottom: 24px;
+    }
+
+    .forgot button {
+      background: none;
+      border: none;
+      color: #ffffff;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: 16px;
+      border: none;
+      border-radius: 12px;
+      background: #ffffff;
+      color: #0b0f19;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 25px 0;
+      color: #657187;
+      font-size: 12px;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: #202b40;
+    }
+
+    .create-btn {
+      width: 100%;
+      padding: 15px;
+      border-radius: 12px;
+      border: 1px solid #29344a;
+      background: #151c2b;
+      color: #ffffff;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .security-box {
+      margin-top: 28px;
+      padding: 16px;
+      border-radius: 13px;
+      background: #111827;
+      border: 1px solid #202b40;
+    }
+
+    .security-box strong {
+      display: block;
+      font-size: 13px;
+      margin-bottom: 7px;
+    }
+
+    .security-box p {
+      color: #7f8ba0;
+      font-size: 11px;
+      line-height: 1.6;
+    }
+
+    .footer {
+      text-align: center;
+      color: #667286;
+      font-size: 11px;
+      margin-top: 30px;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="container">
+
+    <div class="top">
+      <button class="back" onclick="goBack()">‹</button>
+      <div class="logo">OVARA</div>
+    </div>
+
+    <div class="security-icon">🔐</div>
+
+    <h1>Welcome back</h1>
+
+    <p class="intro">
+      Log in securely to manage your OVARA accounts.
+    </p>
+
+    <div class="field">
+      <label for="identifier">Phone number or email</label>
+
+      <input
+        type="text"
+        id="identifier"
+        placeholder="Phone number or email"
+        autocomplete="username"
+      >
+    </div>
+
+    <div class="field">
+
+      <label for="password">Password</label>
+
+      <div class="password-wrapper">
+
+        <input
+          type="password"
+          id="password"
+          placeholder="Enter your password"
+          autocomplete="current-password"
+        >
+
+        <button
+          class="show-password"
+          type="button"
+          onclick="togglePassword()"
+        >
+          Show
+        </button>
+
+      </div>
+
+    </div>
+
+    <div class="forgot">
+      <button onclick="forgotPassword()">
+        Forgot password?
+      </button>
+    </div>
+
+    <button class="login-btn" onclick="login()">
+      Log In
+    </button>
+
+    <div class="divider">OR</div>
+
+    <button class="create-btn" onclick="createAccount()">
+      Create OVARA Account
+    </button>
+
+    <div class="security-box">
+
+      <strong>🔐 Secure login</strong>
+
+      <p>
+        OVARA may request additional verification when you sign in
+        from a new device or when unusual activity is detected.
+      </p>
+
+    </div>
+
+    <div class="footer">
+      Never share your password, transaction PIN, OTP,
+      or security codes with anyone.
+    </div>
+
+  </main>
+
+  <script>
+
+    function goBack() {
+      window.location.href = "index.html";
+    }
+
+    function createAccount() {
+      window.location.href = "create-account.html";
+    }
+
+    function togglePassword() {
+
+      const password = document.getElementById("password");
+      const button = document.querySelector(".show-password");
+
+      if (password.type === "password") {
+        password.type = "text";
+        button.textContent = "Hide";
+      } else {
+        password.type = "password";
+        button.textContent = "Show";
+      }
+    }
+
+    function forgotPassword() {
+      alert(
+        "Password recovery will be connected to the secure OVARA verification system."
+      );
+    }
+
+    function login() {
+
+      const identifier =
+        document.getElementById("identifier").value.trim();
+
+      const password =
+        document.getElementById("password").value;
+
+      if (!identifier || !password) {
+        alert("Please enter your phone number/email and password.");
+        return;
+      }
+
+      alert(
+        "Login will be connected to the secure OVARA authentication backend."
+      );
+    }
+
+  </script>
+
+</body>
+</html>

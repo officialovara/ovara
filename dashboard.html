@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f5f7fb">
+  <title>Dashboard — OVARA</title>
+
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --surface: #ffffff;
+      --surface-soft: #f0f3f8;
+      --text: #111827;
+      --muted: #687386;
+      --border: #e4e8ef;
+      --accent: #111827;
+      --accent-text: #ffffff;
+      --success: #16845b;
+      --danger: #c94343;
+      --shadow: 0 10px 35px rgba(17, 24, 39, 0.06);
+    }
+
+    [data-theme="dark"] {
+      --bg: #0b0f19;
+      --surface: #111827;
+      --surface-soft: #151c2b;
+      --text: #ffffff;
+      --muted: #929daf;
+      --border: #263149;
+      --accent: #ffffff;
+      --accent-text: #0b0f19;
+      --success: #42c995;
+      --danger: #ff7070;
+      --shadow: none;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      transition: background 0.25s ease, color 0.25s ease;
+    }
+
+    button {
+      font-family: inherit;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 1100px;
+      margin: auto;
+      padding-bottom: 90px;
+    }
+
+    /* HEADER */
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 22px 20px;
+    }
+
+    .brand {
+      font-size: 25px;
+      font-weight: 900;
+      letter-spacing: 2px;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 9px;
+    }
+
+    .icon-btn {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      cursor: pointer;
+      font-size: 17px;
+      box-shadow: var(--shadow);
+    }
+
+    /* WELCOME */
+
+    .welcome {
+      padding: 10px 20px 20px;
+    }
+
+    .welcome small {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .welcome h1 {
+      margin-top: 6px;
+      font-size: 25px;
+    }
+
+    /* BALANCE */
+
+    .balance-card {
+      margin: 0 20px 22px;
+      padding: 25px;
+      border-radius: 24px;
+      background: var(--accent);
+      color: var(--accent-text);
+      box-shadow: var(--shadow);
+    }
+
+    .balance-label {
+      font-size: 13px;
+      opacity: 0.7;
+    }
+
+    .balance-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 9px;
+    }
+
+    .balance {
+      font-size: 34px;
+      font-weight: 800;
+      letter-spacing: -1px;
+    }
+
+    .balance-eye {
+      background: transparent;
+      border: none;
+      color: inherit;
+      cursor: pointer;
+      font-size: 17px;
+    }
+
+    .balance-note {
+      margin-top: 10px;
+      font-size: 12px;
+      opacity: 0.65;
+    }
+
+    /* QUICK ACTIONS */
+
+    .section {
+      padding: 0 20px;
+      margin-bottom: 28px;
+    }
+
+    .section-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .section-heading h2 {
+      font-size: 17px;
+    }
+
+    .section-heading button {
+      background: none;
+      border: none;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 12px;
+    }
+
+    .actions {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    .action {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 17px;
+      padding: 15px 8px;
+      color: var(--text);
+      cursor: pointer;
+      box-shadow: var(--shadow);
+    }
+
+    .action-icon {
+      width: 39px;
+      height: 39px;
+      border-radius: 12px;
+      background: var(--surface-soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 9px;
+      font-size: 17px;
+    }
+
+    .action span {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    /* ACCOUNTS */
+
+    .accounts {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .account {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 19px;
+      padding: 18px;
+      color: var(--text);
+      cursor: pointer;
+      text-align: left;
+      box-shadow: var(--shadow);
+      transition: transform 0.2s ease;
+    }
+
+    .account:active {
+      transform: scale(0.98);
+    }
+
+    .currency {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+    }
+
+    .currency-name {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .currency-code {
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .account-balance {
+      font-size: 21px;
+      font-weight: 800;
+    }
+
+    .account-status {
+      color: var(--muted);
+      font-size: 11px;
+      margin-top: 6px;
+    }
+
+    /* ACTIVITY */
+
+    .activity {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .empty {
+      text-align: center;
+      padding: 35px 20px;
+      color: var(--muted);
+    }
+
+    .empty-icon {
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+
+    .empty strong {
+      display: block;
+      color: var(--text);
+      font-size: 14px;
+      margin-bottom: 6px;
+    }
+
+    .empty p {
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    /* SECURITY */
+
+    .security-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 19px;
+      padding: 18px;
+      box-shadow: var(--shadow);
+    }
+
+    .security-top {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .security-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 13px;
+      background: var(--surface-soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .security-card strong {
+      font-size: 14px;
+    }
+
+    .security-card p {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+      margin-top: 3px;
+    }
+
+    /* BOTTOM NAV */
+
+    .bottom-nav {
+      position: fixed;
+      left: 50%;
+      bottom: 14px;
+      transform: translateX(-50%);
+      width: calc(100% - 28px);
+      max-width: 600px;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 8px;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+      z-index: 100;
+    }
+
+    .nav-item {
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      padding: 8px 3px;
+      cursor: pointer;
+      border-radius: 13px;
+      font-size: 11px;
+    }
+
+    .nav-item.active {
+      color: var(--text);
+      background: var(--surface-soft);
+      font-weight: 700;
+    }
+
+    .nav-icon {
+      display: block;
+      font-size: 16px;
+      margin-bottom: 3px;
+    }
+
+    /* DESKTOP */
+
+    @media (min-width: 700px) {
+      .app {
+        padding-left: 15px;
+        padding-right: 15px;
+      }
+
+      .accounts {
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      .balance-card {
+        padding: 32px;
+      }
+
+      .balance {
+        font-size: 42px;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .actions {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .accounts {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="app">
+
+    <!-- HEADER -->
+
+    <header>
+      <div class="brand">OVARA</div>
+
+      <div class="header-actions">
+        <button class="icon-btn" onclick="notifications()" aria-label="Notifications">
+          🔔
+        </button>
+
+        <button class="icon-btn" onclick="profile()" aria-label="Profile">
+          👤
+        </button>
+      </div>
+    </header>
+
+    <!-- WELCOME -->
+
+    <section class="welcome">
+      <small>Good morning</small>
+      <h1>Welcome to your OVARA account</h1>
+    </section>
+
+    <!-- TOTAL BALANCE -->
+
+    <section class="balance-card">
+
+      <div class="balance-label">
+        Total balance
+      </div>
+
+      <div class="balance-row">
+
+        <div class="balance" id="totalBalance">
+          ₦0.00
+        </div>
+
+        <button
+          class="balance-eye"
+          onclick="toggleBalance()"
+          aria-label="Hide or show balance"
+        >
+          👁️
+        </button>
+
+      </div>
+
+      <div class="balance-note">
+        Your OVARA balances are displayed securely.
+      </div>
+
+    </section>
+
+    <!-- QUICK ACTIONS -->
+
+    <section class="section">
+
+      <div class="section-heading">
+        <h2>Quick actions</h2>
+      </div>
+
+      <div class="actions">
+
+        <button class="action" onclick="actionMessage('Send')">
+          <div class="action-icon">↗</div>
+          <span>Send</span>
+        </button>
+
+        <button class="action" onclick="actionMessage('Receive')">
+          <div class="action-icon">↙</div>
+          <span>Receive</span>
+        </button>
+
+        <button class="action" onclick="actionMessage('Deposit')">
+          <div class="action-icon">＋</div>
+          <span>Deposit</span>
+        </button>
+
+        <button class="action" onclick="actionMessage('Withdraw')">
+          <div class="action-icon">−</div>
+          <span>Withdraw</span>
+        </button>
+
+      </div>
+
+    </section>
+
+    <!-- ACCOUNTS -->
+
+    <section class="section">
+
+      <div class="section-heading">
+        <h2>Your accounts</h2>
+        <button onclick="viewAccounts()">View all</button>
+      </div>
+
+      <div class="accounts">
+
+        <button class="account" onclick="openAccount('NGN')">
+
+          <div class="currency">
+            <div class="currency-name">
+              🇳🇬 NGN
+            </div>
+
+            <div class="currency-code">
+              NGN
+            </div>
+          </div>
+
+          <div class="account-balance">
+            ₦0.00
+          </div>
+
+          <div class="account-status">
+            Nigerian Naira
+          </div>
+
+        </button>
+
+        <button class="account" onclick="openAccount('USD')">
+
+          <div class="currency">
+            <div class="currency-name">
+              🇺🇸 USD
+            </div>
+
+            <div class="currency-code">
+              USD
+            </div>
+          </div>
+
+          <div class="account-balance">
+            $0.00
+          </div>
+
+          <div class="account-status">
+            US Dollar
+          </div>
+
+        </button>
+
+        <button class="account" onclick="openAccount('GBP')">
+
+          <div class="currency">
+            <div class="currency-name">
+              🇬🇧 GBP
+            </div>
+
+            <div class="currency-code">
+              GBP
+            </div>
+          </div>
+
+          <div class="account-balance">
+            £0.00
+          </div>
+
+          <div class="account-status">
+            British Pound
+          </div>
+
+        </button>
+
+        <button class="account" onclick="openAccount('EUR')">
+
+          <div class="currency">
+            <div class="currency-name">
+              🇪🇺 EUR
+            </div>
+
+            <div class="currency-code">
+              EUR
+            </div>
+          </div>
+
+          <div class="account-balance">
+            €0.00
+          </div>
+
+          <div class="account-status">
+            Euro
+          </div>
+
+        </button>
+
+      </div>
+
+    </section>
+
+    <!-- RECENT ACTIVITY -->
+
+    <section class="section">
+
+      <div class="section-heading">
+        <h2>Recent activity</h2>
+        <button onclick="viewActivity()">View all</button>
+      </div>
+
+      <div class="activity">
+
+        <div class="empty">
+
+          <div class="empty-icon">
+            ◌
+          </div>
+
+          <strong>No transactions yet</strong>
+
+          <p>
+            Your deposits, transfers and payments will appear here.
+          </p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- SECURITY -->
+
+    <section class="section">
+
+      <div class="security-card">
+
+        <div class="security-top">
+
+          <div class="security-icon">
+            🔐
+          </div>
+
+          <div>
+            <strong>OVARA Security</strong>
+
+            <p>
+              Your account is protected by layered authentication
+              and transaction monitoring.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </div>
+
+  <!-- BOTTOM NAV -->
+
+  <nav class="bottom-nav">
+
+    <button class="nav-item active" onclick="goHome()">
+      <span class="nav-icon">⌂</span>
+      Home
+    </button>
+
+    <button class="nav-item" onclick="payments()">
+      <span class="nav-icon">↗</span>
+      Payments
+    </button>
+
+    <button class="nav-item" onclick="accounts()">
+      <span class="nav-icon">▣</span>
+      Accounts
+    </button>
+
+    <button class="nav-item" onclick="activity()">
+      <span class="nav-icon">◷</span>
+      Activity
+    </button>
+
+    <button class="nav-item" onclick="profile()">
+      <span class="nav-icon">●</span>
+      Profile
+    </button>
+
+  </nav>
+
+  <script>
+
+    let balanceVisible = true;
+
+    function toggleBalance() {
+
+      const balance = document.getElementById("totalBalance");
+
+      if (balanceVisible) {
+        balance.textContent = "₦••••••";
+        balanceVisible = false;
+      } else {
+        balance.textContent = "₦0.00";
+        balanceVisible = true;
+      }
+    }
+
+    function actionMessage(action) {
+      alert(action + " will be connected to the secure OVARA banking system.");
+    }
+
+    function openAccount(currency) {
+      alert(currency + " account will open here.");
+    }
+
+    function notifications() {
+      alert("OVARA notifications will appear here.");
+    }
+
+    function profile() {
+      alert("OVARA profile and security settings will appear here.");
+    }
+
+    function viewAccounts() {
+      alert("Your OVARA accounts will appear here.");
+    }
+
+    function viewActivity() {
+      alert("Your complete transaction activity will appear here.");
+    }
+
+    function goHome() {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    }
+
+    function payments() {
+      alert("OVARA payments will open here.");
+    }
+
+    function accounts() {
+      alert("OVARA accounts will open here.");
+    }
+
+    function activity() {
+      alert("OVARA activity will open here.");
+    }
+
+    // Theme support
+    // Default: system preference
+
+    const savedTheme = localStorage.getItem("ovara-theme");
+
+    if (savedTheme === "dark") {
+      document.documentElement.setAttribute("data-theme", "dark");
+    }
+
+  </script>
+
+</body>
+        </html>

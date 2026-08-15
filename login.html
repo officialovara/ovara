@@ -296,52 +296,23 @@
 
   <script>
 
-    function goBack() {
-      window.location.href = "index.html";
-    }
-
-    function createAccount() {
-      window.location.href = "create-account.html";
-    }
-
-    function togglePassword() {
-
-      const password = document.getElementById("password");
-      const button = document.querySelector(".show-password");
-
-      if (password.type === "password") {
-        password.type = "text";
-        button.textContent = "Hide";
-      } else {
-        password.type = "password";
-        button.textContent = "Show";
-      }
-    }
-
-    function forgotPassword() {
-      alert(
-        "Password recovery will be connected to the secure OVARA verification system."
-      );
-    }
-
     function login() {
 
-      const identifier =
-        document.getElementById("identifier").value.trim();
+  const identifier =
+    document.getElementById("identifier").value.trim();
 
-      const password =
-        document.getElementById("password").value;
+  const password =
+    document.getElementById("password").value;
 
-      if (!identifier || !password) {
-        alert("Please enter your phone number/email and password.");
-        return;
-      }
+  if (!identifier || !password) {
+    alert("Please enter your phone number/email and password.");
+    return;
+  }
 
-      alert(
-        "Login will be connected to the secure OVARA authentication backend."
-      );
+  // Temporary demo navigation.
+  // Real authentication will be handled by the secure backend.
+  window.location.href = "dashboard.html";
     }
-
   </script>
 
 </body>

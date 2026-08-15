@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f5f7fb">
+
+  <link rel="manifest" href="manifest.json">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="OVARA">
+
+  <title>Accounts — OVARA</title>
+
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --surface: #ffffff;
+      --soft: #f0f3f8;
+      --text: #111827;
+      --muted: #687386;
+      --border: #e3e8ef;
+      --accent: #16845b;
+      --shadow: 0 10px 35px rgba(17, 24, 39, 0.06);
+    }
+
+    [data-theme="dark"] {
+      --bg: #0b0f19;
+      --surface: #111827;
+      --soft: #151c2b;
+      --text: #ffffff;
+      --muted: #929daf;
+      --border: #263149;
+      --accent: #42c995;
+      --shadow: none;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 650px;
+      margin: auto;
+      padding: 20px 18px 100px;
+    }
+
+    /* HEADER */
+
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 25px;
+    }
+
+    .back {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      font-size: 22px;
+      cursor: pointer;
+    }
+
+    .header h1 {
+      font-size: 22px;
+    }
+
+    /* INTRO */
+
+    .intro {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 21px;
+      padding: 20px;
+      box-shadow: var(--shadow);
+      margin-bottom: 22px;
+    }
+
+    .intro h2 {
+      font-size: 17px;
+      margin-bottom: 6px;
+    }
+
+    .intro p {
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.6;
+    }
+
+    /* ACCOUNTS */
+
+    .account-list {
+      display: grid;
+      gap: 14px;
+    }
+
+    .account {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 21px;
+      background: var(--surface);
+      color: var(--text);
+      padding: 20px;
+      text-align: left;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      transition: transform .15s ease;
+    }
+
+    .account:active {
+      transform: scale(.98);
+    }
+
+    .account-top {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .flag {
+      width: 50px;
+      height: 50px;
+      border-radius: 15px;
+      background: var(--soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 25px;
+      flex-shrink: 0;
+    }
+
+    .currency-info {
+      flex: 1;
+    }
+
+    .currency-name {
+      font-size: 16px;
+      font-weight: 800;
+    }
+
+    .currency-code {
+      color: var(--muted);
+      font-size: 11px;
+      margin-top: 4px;
+    }
+
+    .arrow {
+      color: var(--muted);
+      font-size: 22px;
+    }
+
+    .balance-label {
+      color: var(--muted);
+      font-size: 10px;
+      margin-top: 18px;
+    }
+
+    .balance {
+      font-size: 23px;
+      font-weight: 800;
+      margin-top: 4px;
+    }
+
+    .account-status {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 6px 9px;
+      border-radius: 8px;
+      background: var(--soft);
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    /* NOTICE */
+
+    .notice {
+      margin-top: 20px;
+      padding: 16px;
+      border-radius: 15px;
+      background: var(--soft);
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.6;
+    }
+
+    .footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 10px;
+      line-height: 1.6;
+      margin-top: 25px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="app">
+
+    <div class="header">
+      <button class="back" onclick="goBack()">‹</button>
+      <h1>Your Accounts</h1>
+    </div>
+
+    <!-- INTRO -->
+
+    <section class="intro">
+      <h2>Four currencies. One OVARA account.</h2>
+
+      <p>
+        Manage your supported currency balances from one secure place.
+        Select an account to view its balance, account details and
+        available actions.
+      </p>
+    </section>
+
+    <!-- ACCOUNTS -->
+
+    <section class="account-list">
+
+      <!-- NGN -->
+
+      <button class="account" onclick="openAccount('NGN')">
+
+        <div class="account-top">
+
+          <div class="flag">
+            🇳🇬
+          </div>
+
+          <div class="currency-info">
+            <div class="currency-name">
+              Nigerian Naira
+            </div>
+
+            <div class="currency-code">
+              NGN Account
+            </div>
+          </div>
+
+          <div class="arrow">
+            ›
+          </div>
+
+        </div>
+
+        <div class="balance-label">
+          Available balance
+        </div>
+
+        <div class="balance">
+          ₦0.00
+        </div>
+
+        <div class="account-status">
+          NGN account
+        </div>
+
+      </button>
+
+
+      <!-- USD -->
+
+      <button class="account" onclick="openAccount('USD')">
+
+        <div class="account-top">
+
+          <div class="flag">
+            🇺🇸
+          </div>
+
+          <div class="currency-info">
+            <div class="currency-name">
+              US Dollar
+            </div>
+
+            <div class="currency-code">
+              USD Account
+            </div>
+          </div>
+
+          <div class="arrow">
+            ›
+          </div>
+
+        </div>
+
+        <div class="balance-label">
+          Available balance
+        </div>
+
+        <div class="balance">
+          $0.00
+        </div>
+
+        <div class="account-status">
+          USD account
+        </div>
+
+      </button>
+
+
+      <!-- GBP -->
+
+      <button class="account" onclick="openAccount('GBP')">
+
+        <div class="account-top">
+
+          <div class="flag">
+            🇬🇧
+          </div>
+
+          <div class="currency-info">
+            <div class="currency-name">
+              British Pound
+            </div>
+
+            <div class="currency-code">
+              GBP Account
+            </div>
+          </div>
+
+          <div class="arrow">
+            ›
+          </div>
+
+        </div>
+
+        <div class="balance-label">
+          Available balance
+        </div>
+
+        <div class="balance">
+          £0.00
+        </div>
+
+        <div class="account-status">
+          GBP account
+        </div>
+
+      </button>
+
+
+      <!-- EUR -->
+
+      <button class="account" onclick="openAccount('EUR')">
+
+        <div class="account-top">
+
+          <div class="flag">
+            🇪🇺
+          </div>
+
+          <div class="currency-info">
+            <div class="currency-name">
+              Euro
+            </div>
+
+            <div class="currency-code">
+              EUR Account
+            </div>
+          </div>
+
+          <div class="arrow">
+            ›
+          </div>
+
+        </div>
+
+        <div class="balance-label">
+          Available balance
+        </div>
+
+        <div class="balance">
+          €0.00
+        </div>
+
+        <div class="account-status">
+          EUR account
+        </div>
+
+      </button>
+
+    </section>
+
+
+    <div class="notice">
+      🔐 Currency balances shown here are currently part of the
+      OVARA prototype. Real account balances, deposits, withdrawals,
+      transfers and receiving details will be connected through
+      secure financial providers and the OVARA backend.
+    </div>
+
+
+    <div class="footer">
+      OVARA supports four currencies only:
+      NGN, USD, GBP and EUR.
+    </div>
+
+  </main>
+
+
+  <script>
+
+    function goBack() {
+      window.location.href = "dashboard.html";
+    }
+
+
+    function openAccount(currency) {
+
+      const messages = {
+        NGN: "NGN account details and Nigerian banking connection will be added here.",
+        USD: "USD receiving and account details will be connected here.",
+        GBP: "GBP receiving and account details will be connected here.",
+        EUR: "EUR receiving and account details will be connected here."
+      };
+
+      alert(messages[currency]);
+    }
+
+
+    // OVARA PWA
+
+    if ("serviceWorker" in navigator) {
+
+      window.addEventListener("load", () => {
+
+        navigator.serviceWorker.register("./sw.js")
+          .then(() => {
+            console.log("OVARA service worker registered.");
+          })
+          .catch(error => {
+            console.error(
+              "OVARA service worker registration failed:",
+              error
+            );
+          });
+
+      });
+
+    }
+
+
+    // Saved theme
+
+    const savedTheme = localStorage.getItem("ovara-theme");
+
+    if (savedTheme === "dark") {
+
+      document.documentElement.setAttribute(
+        "data-theme",
+        "dark"
+      );
+
+    }
+
+  </script>
+
+</body>
+</html>

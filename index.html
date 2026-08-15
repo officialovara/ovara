@@ -144,19 +144,38 @@
       line-height: 1.6;
     }
 
-    footer {
+        footer {
       text-align: center;
       padding: 20px;
       color: #69758a;
       font-size: 12px;
     }
 
-    @media (max-width: 380px) {
-      h1 {
-        font-size: 32px;
-      }
-    }
   </style>
+
+  <link rel="manifest" href="manifest.json">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="OVARA">
+
+</head>
+
+<body>
+
+  <div class="app">
+
+    <header>
+      <div class="logo">OVARA</div>
+      <div class="secure">🔐 Secure Banking</div>
+    </header>
+
+    <main>
+      <section class="hero">
+
+        <div class="lock">🔐</div>
+
+    
+  
 </head>
 
 <body>
@@ -238,6 +257,21 @@ function login() {
   window.location.href = "login.html";
 }
   </script>
-
+<script>
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("./sw.js")
+        .then(() => {
+          console.log("OVARA service worker registered.");
+        })
+        .catch(error => {
+          console.error(
+            "OVARA service worker registration failed:",
+            error
+          );
+        });
+    });
+  }
+</script>
 </body>
   </html>

@@ -314,11 +314,14 @@
     return;
   }
 
-  // Temporary demo navigation.
+    // Temporary demo navigation.
   // Real authentication will be handled by the secure backend.
   window.location.href = "dashboard.html";
-    }
- <script>
+}
+
+</script>
+
+<script>
   if ("serviceWorker" in navigator) {
     window.addEventListener("load", () => {
       navigator.serviceWorker.register("./sw.js")

@@ -303,18 +303,76 @@
 
   function login() {
 
-    const identifier =
-      document.getElementById("identifier").value.trim();
+  const identifier =
+    document.getElementById("identifier").value.trim();
 
-    const password =
-      document.getElementById("password").value;
+  const password =
+    document.getElementById("password").value;
 
-    if (!identifier || !password) {
-      alert("Please enter your phone number/email and password.");
-      return;
-    }
 
-    window.location.href = "dashboard.html";
+  if (!identifier || !password) {
+
+    alert("Please enter your phone number/email and password.");
+    return;
+
+  }
+
+
+  const savedAccount =
+    localStorage.getItem("ovaraAccount");
+
+
+  if (!savedAccount) {
+
+    alert(
+      "No OVARA account was found. Please create an account first."
+    );
+
+    return;
+
+  }
+
+
+  const account =
+    JSON.parse(savedAccount);
+
+
+  const identifierMatches =
+    identifier.toLowerCase() === account.email.toLowerCase() ||
+    identifier === account.phone;
+
+
+  if (!identifierMatches) {
+
+    alert(
+      "Phone number or email is incorrect."
+    );
+
+    return;
+
+  }
+
+
+  if (password !== account.password) {
+
+    alert(
+      "Incorrect password."
+    );
+
+    return;
+
+  }
+
+
+  localStorage.setItem(
+    "ovaraLoggedIn",
+    "true"
+  );
+
+
+  window.location.href =
+    "dashboard.html";
+
   }
 
 

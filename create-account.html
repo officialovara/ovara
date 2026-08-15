@@ -438,31 +438,87 @@
 
     function createAccount() {
 
-      const fullName = document.getElementById("fullName").value.trim();
-      const phone = document.getElementById("phone").value.trim();
-      const email = document.getElementById("email").value.trim();
-      const password = document.getElementById("password").value;
-      const pin = document.getElementById("pin").value;
-      const terms = document.getElementById("terms").checked;
+  const fullName =
+    document.getElementById("fullName").value.trim();
 
-      if (!fullName || !phone || !email || !password || !pin) {
-        alert("Please complete all required fields.");
-        return;
-      }
+  const phone =
+    document.getElementById("phone").value.trim();
 
-      if (pin.length !== 6 || !/^\d+$/.test(pin)) {
-        alert("Your transaction PIN must contain exactly 6 digits.");
-        return;
-      }
+  const email =
+    document.getElementById("email").value.trim();
 
-      if (!terms) {
-        alert("Please accept the OVARA terms and security requirements.");
-        return;
-      }
+  const password =
+    document.getElementById("password").value;
 
-      alert(
-        "Account registration will be connected to the secure OVARA backend."
-      );
+  const pin =
+    document.getElementById("pin").value;
+
+  const terms =
+    document.getElementById("terms").checked;
+
+
+  if (!fullName || !phone || !email || !password || !pin) {
+
+    alert("Please complete all required fields.");
+    return;
+
+  }
+
+
+  if (pin.length !== 6 || !/^\d+$/.test(pin)) {
+
+    alert("Your transaction PIN must contain exactly 6 digits.");
+    return;
+
+  }
+
+
+  if (!terms) {
+
+    alert("Please accept the OVARA terms and security requirements.");
+    return;
+
+  }
+
+
+  const account = {
+
+    fullName: fullName,
+    phone: phone,
+    email: email,
+
+    password: password,
+
+    pin: pin,
+
+    debitAlert:
+      document.querySelector(
+        'input[name="debitAlert"]:checked'
+      )?.value || "email",
+
+    creditAlert:
+      document.querySelector(
+        'input[name="creditAlert"]:checked'
+      )?.value || "email",
+
+    createdAt: new Date().toISOString()
+
+  };
+
+
+  localStorage.setItem(
+    "ovaraAccount",
+    JSON.stringify(account)
+  );
+
+
+  alert(
+    "OVARA account created successfully."
+  );
+
+
+  window.location.href = "login.html";
+
     }
 
   </script>

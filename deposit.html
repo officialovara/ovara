@@ -290,12 +290,12 @@
       <div class="input-wrapper">
         <span class="currency-symbol">₦</span>
         <input
-          type="number"
-          id="amount"
-          placeholder="0.00"
-          min="1"
-          inputmode="decimal"
-        >
+  type="text"
+  id="amount"
+  placeholder="0.00"
+  inputmode="decimal"
+  autocomplete="off"
+>
       </div>
 
     </section>
@@ -346,9 +346,45 @@
   function goBack() {
     window.location.href = "dashboard.html";
   }
+function formatAmountInput(input) {
+  let value = input.value.replace(/,/g, "");
+
+  if (value === "") {
+    input.value = "";
+    return;
+  }
+
+  // Allow only numbers and one decimal point
+  value = value.replace(/[^\d.]/g, "");
+
+  const parts = value.split(".");
+
+  let wholePart = parts[0];
+  let decimalPart = parts[1] || "";
+
+  // Limit decimals to 2 places
+  decimalPart = decimalPart.substring(0, 2);
+
+  // Add commas
+  wholePart = Number(wholePart || 0).toLocaleString("en-NG");
+
+  input.value =
+    decimalPart.length > 0
+      ? wholePart + "." + decimalPart
+      : wholePart;
+}
+
+document
+  .getElementById("amount")
+  .addEventListener("input", function () {
+    formatAmountInput(this);
+  });
 
   function continueDeposit() {
-    const amount = document.getElementById("amount").value;
+    const amount = document
+  .getElementById("amount")
+  .value
+  .replace(/,/g, "");
     const method = document.querySelector(
       'input[name="method"]:checked'
     );

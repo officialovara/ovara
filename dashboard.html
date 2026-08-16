@@ -487,10 +487,10 @@
   <span>Send</span>
 </button> 
 
-        <button class="action" onclick="actionMessage('Receive')">
-          <div class="action-icon">↙</div>
-          <span>Receive</span>
-        </button>
+        <button class="action" onclick="receiveMoney()">
+  <div class="action-icon">↙</div>
+  <span>Receive</span>
+</button>
 
         <button class="action" onclick="actionMessage('Deposit')">
           <div class="action-icon">＋</div>
@@ -717,7 +717,10 @@
    function sendMoney() {
  window.location.href = "send.html";
 }
-   
+    
+  function receiveMoney() {
+  window.location.href = "receive.html";
+} 
 
     function openAccount(currency) {
   window.location.href = "account.html?currency=" + currency;

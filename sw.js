@@ -1,4 +1,4 @@
-const CACHE_NAME = "ovara-v4";
+const CACHE_NAME = "ovara-v5";
 
 const FILES_TO_CACHE = [
   "./",
@@ -6,6 +6,7 @@ const FILES_TO_CACHE = [
   "./icon-192-2.png",
   "./icon-512-2.png"
 ];
+
 
 self.addEventListener("install", event => {
 
@@ -45,16 +46,29 @@ self.addEventListener("activate", event => {
 
 self.addEventListener("fetch", event => {
 
-  // Always get HTML pages from the network first.
-  // This prevents old OVARA pages from being stuck in cache.
+  /*
+   * HTML pages:
+   * Always request the newest version from GitHub Pages.
+   */
 
-  if (event.request.mode === "navigate") {
+  if (
+    event.request.mode === "navigate" ||
+    event.request.destination === "document"
+  ) {
 
     event.respondWith(
 
       fetch(event.request)
-        .then(response => response)
-        .catch(() => caches.match(event.request))
+        .then(response => {
+
+          return response;
+
+        })
+        .catch(() => {
+
+          return caches.match(event.request);
+
+        })
 
     );
 
@@ -63,15 +77,18 @@ self.addEventListener("fetch", event => {
   }
 
 
-  // Other files can use the cache.
+  /*
+   * Other files can use the cache.
+   */
 
   event.respondWith(
 
-    caches.match(event.request).then(cachedResponse => {
+    caches.match(event.request)
+      .then(cachedResponse => {
 
-      return cachedResponse || fetch(event.request);
+        return cachedResponse || fetch(event.request);
 
-    })
+      })
 
   );
 

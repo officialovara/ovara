@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta name="description" content="Receive money securely with OVARA">
+  <meta name="theme-color" content="#0b0f19">
+
+  <title>Receive Money — OVARA</title>
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      background: #f5f7fa;
+      color: #111827;
+      min-height: 100vh;
+    }
+
+    .header {
+      background: #ffffff;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .back-btn {
+      width: 42px;
+      height: 42px;
+      border: none;
+      border-radius: 50%;
+      background: #f1f3f5;
+      color: #111827;
+      font-size: 25px;
+      cursor: pointer;
+    }
+
+    .header h1 {
+      font-size: 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 520px;
+      margin: auto;
+      padding: 25px 20px 45px;
+    }
+
+    .intro {
+      margin-bottom: 25px;
+    }
+
+    .intro h2 {
+      font-size: 24px;
+      margin-bottom: 8px;
+    }
+
+    .intro p {
+      color: #6b7280;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .card {
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 20px;
+      margin-bottom: 20px;
+      border: 1px solid #e5e7eb;
+    }
+
+    .field {
+      margin-bottom: 18px;
+    }
+
+    .field:last-child {
+      margin-bottom: 0;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #374151;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 15px;
+      border: 1px solid #d1d5db;
+      border-radius: 11px;
+      background: #ffffff;
+      color: #111827;
+      font-size: 15px;
+      outline: none;
+    }
+
+    input:focus,
+    select:focus {
+      border-color: #111827;
+    }
+
+    .account-details {
+      background: #111827;
+      color: #ffffff;
+      border-radius: 18px;
+      padding: 22px;
+      margin-bottom: 20px;
+    }
+
+    .account-title {
+      font-size: 14px;
+      color: #cbd5e1;
+      margin-bottom: 15px;
+    }
+
+    .account-name {
+      font-size: 21px;
+      font-weight: 700;
+      margin-bottom: 18px;
+    }
+
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      padding: 12px 0;
+      border-top: 1px solid #29344a;
+    }
+
+    .detail-label {
+      color: #94a3b8;
+      font-size: 12px;
+    }
+
+    .detail-value {
+      font-size: 13px;
+      font-weight: 600;
+      text-align: right;
+      word-break: break-word;
+    }
+
+    .copy-btn {
+      margin-top: 15px;
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #29344a;
+      border-radius: 10px;
+      background: #151c2b;
+      color: #ffffff;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .info-box {
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      border-radius: 16px;
+      padding: 18px;
+      margin-bottom: 20px;
+    }
+
+    .info-box strong {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+
+    .info-box p {
+      color: #6b7280;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .security-box {
+      background: #111827;
+      color: #ffffff;
+      border-radius: 16px;
+      padding: 18px;
+    }
+
+    .security-box strong {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 14px;
+    }
+
+    .security-box p {
+      color: #cbd5e1;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .notice {
+      text-align: center;
+      color: #6b7280;
+      font-size: 11px;
+      line-height: 1.5;
+      margin-top: 20px;
+    }
+
+  </style>
+
+  <link rel="manifest" href="manifest.json">
+
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="OVARA">
+
+</head>
+
+<body>
+
+  <header class="header">
+
+    <button class="back-btn" onclick="goBack()">
+      ‹
+    </button>
+
+    <h1>Receive Money</h1>
+
+  </header>
+
+
+  <main class="container">
+
+    <section class="intro">
+
+      <h2>Receive money</h2>
+
+      <p>
+        Select the OVARA currency account you want to receive
+        money into and share the account details with the sender.
+      </p>
+
+    </section>
+
+
+    <section class="card">
+
+      <div class="field">
+
+        <label for="currency">
+          Receive into
+        </label>
+
+        <select id="currency" onchange="updateAccount()">
+
+          <option value="NGN">
+            🇳🇬 NGN — Nigerian Naira
+          </option>
+
+          <option value="USD">
+            🇺🇸 USD — US Dollar
+          </option>
+
+          <option value="GBP">
+            🇬🇧 GBP — British Pound
+          </option>
+
+          <option value="EUR">
+            🇪🇺 EUR — Euro
+          </option>
+
+        </select>
+
+      </div>
+
+    </section>
+
+
+    <section class="account-details">
+
+      <div class="account-title">
+        OVARA receiving account
+      </div>
+
+      <div class="account-name" id="accountName">
+        🇳🇬 Nigerian Naira
+      </div>
+
+      <div class="detail-row">
+
+        <div class="detail-label">
+          Currency
+        </div>
+
+        <div class="detail-value" id="currencyCode">
+          NGN
+        </div>
+
+      </div>
+
+      <div class="detail-row">
+
+        <div class="detail-label">
+          Account number
+        </div>
+
+        <div class="detail-value" id="accountNumber">
+          —
+        </div>
+
+      </div>
+
+      <div class="detail-row">
+
+        <div class="detail-label">
+          Account status
+        </div>
+
+        <div class="detail-value">
+          Prototype
+        </div>
+
+      </div>
+
+      <button class="copy-btn" onclick="copyAccountNumber()">
+        Copy account number
+      </button>
+
+    </section>
+
+
+    <section class="info-box">
+
+      <strong>💡 How receiving works</strong>
+
+      <p>
+        Share your OVARA account details with the person or
+        business sending you money. Incoming payments will
+        appear in your selected currency balance once the
+        banking connection is active.
+      </p>
+
+    </section>
+
+
+    <section class="security-box">
+
+      <strong>🔐 Secure receiving</strong>
+
+      <p>
+        OVARA will verify incoming transactions and apply
+        security monitoring before funds are credited to your
+        account.
+      </p>
+
+    </section>
+
+
+    <div class="notice">
+
+      Real account numbers, receiving details and incoming
+      payment processing will be connected through secure
+      financial providers and the OVARA backend.
+
+    </div>
+
+  </main>
+
+
+  <script>
+
+    const accountData = {
+
+      NGN: {
+        name: "🇳🇬 Nigerian Naira",
+        code: "NGN",
+        number: "—"
+      },
+
+      USD: {
+        name: "🇺🇸 US Dollar",
+        code: "USD",
+        number: "—"
+      },
+
+      GBP: {
+        name: "🇬🇧 British Pound",
+        code: "GBP",
+        number: "—"
+      },
+
+      EUR: {
+        name: "🇪🇺 Euro",
+        code: "EUR",
+        number: "—"
+      }
+
+    };
+
+
+    function updateAccount() {
+
+      const currency =
+        document.getElementById("currency").value;
+
+      const account =
+        accountData[currency];
+
+      document.getElementById("accountName")
+        .textContent = account.name;
+
+      document.getElementById("currencyCode")
+        .textContent = account.code;
+
+      document.getElementById("accountNumber")
+        .textContent = account.number;
+
+    }
+
+
+    function copyAccountNumber() {
+
+      const number =
+        document.getElementById("accountNumber")
+          .textContent;
+
+      if (number === "—") {
+
+        alert(
+          "Your OVARA account number will appear here when receiving accounts are connected."
+        );
+
+        return;
+
+      }
+
+      navigator.clipboard.writeText(number)
+        .then(() => {
+
+          alert("Account number copied.");
+
+        })
+        .catch(() => {
+
+          alert("Unable to copy the account number.");
+
+        });
+
+    }
+
+
+    function goBack() {
+
+      window.location.href =
+        "dashboard.html";
+
+    }
+
+
+    // OVARA PWA
+
+    if ("serviceWorker" in navigator) {
+
+      window.addEventListener("load", () => {
+
+        navigator.serviceWorker.register("./sw.js")
+
+          .then(() => {
+
+            console.log(
+              "OVARA service worker registered."
+            );
+
+          })
+
+          .catch(error => {
+
+            console.error(
+              "OVARA service worker registration failed:",
+              error
+            );
+
+          });
+
+      });
+
+    }
+
+  </script>
+
+</body>
+</html>

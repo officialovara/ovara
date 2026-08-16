@@ -482,10 +482,10 @@
 
       <div class="actions">
 
-        <button class="action" onclick="actionMessage('Send')">
-          <div class="action-icon">↗</div>
-          <span>Send</span>
-        </button>
+       <button class="action" onclick="sendMoney()">
+  <div class="action-icon">↗</div>
+  <span>Send</span>
+</button> 
 
         <button class="action" onclick="actionMessage('Receive')">
           <div class="action-icon">↙</div>
@@ -714,10 +714,10 @@
         balanceVisible = true;
       }
     }
-
-    function actionMessage(action) {
-      alert(action + " will be connected to the secure OVARA banking system.");
-    }
+   function sendMoney() {
+ window.location.href = "send.html";
+}
+   
 
     function openAccount(currency) {
   window.location.href = "account.html?currency=" + currency;

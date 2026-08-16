@@ -1,4 +1,4 @@
-const CACHE_NAME = "ovara-v5";
+const CACHE_NAME = "ovara-v6";
 
 const FILES_TO_CACHE = [
   "./",

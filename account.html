@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+8<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -161,55 +161,67 @@
 
   <script>
 
-    const params = new URLSearchParams(window.location.search);
+  const params = new URLSearchParams(window.location.search);
 
-    const currency = params.get("currency") || "NGN";
+  const currency = params.get("currency") || "NGN";
 
-    const currencyData = {
 
-      NGN: {
-        name: "🇳🇬 Nigerian Naira",
-        symbol: "₦",
-        balance: "₦0.00",
-        number: "NGN account number: —"
-      },
+  const currencyData = {
 
-      USD: {
-        name: "🇺🇸 US Dollar",
-        symbol: "$",
-        balance: "$0.00",
-        number: "USD account number: —"
-      },
+    NGN: {
+      name: "🇳🇬 Nigerian Naira",
+      code: "NGN",
+      symbol: "₦",
+      balance: "₦0.00",
+      number: "NGN account number: —"
+    },
 
-      GBP: {
-        name: "🇬🇧 British Pound",
-        symbol: "£",
-        balance: "£0.00",
-        number: "GBP account number: —"
-      },
+    USD: {
+      name: "🇺🇸 US Dollar",
+      code: "USD",
+      symbol: "$",
+      balance: "$0.00",
+      number: "USD account number: —"
+    },
 
-      EUR: {
-        name: "🇪🇺 Euro",
-        symbol: "€",
-        balance: "€0.00",
-        number: "EUR account number: —"
-      }
+    GBP: {
+      name: "🇬🇧 British Pound",
+      code: "GBP",
+      symbol: "£",
+      balance: "£0.00",
+      number: "GBP account number: —"
+    },
 
-    };
+    EUR: {
+      name: "🇪🇺 Euro",
+      code: "EUR",
+      symbol: "€",
+      balance: "€0.00",
+      number: "EUR account number: —"
+    }
 
-    const account = currencyData[currency] || currencyData.NGN;
+  };
 
-    document.getElementById("pageTitle").textContent =
-      account.name;
 
-    document.getElementById("currencyName").textContent =
-      account.name;
+  const account =
+    currencyData[currency] || currencyData.NGN;
 
-    document.getElementById("balance").textContent =
-      account.balance;
 
-    document.getElementById("accountNumber").textContent =
-      account.number;
+  document.getElementById("pageTitle").textContent =
+    account.code + " Account";
+
+
+  document.getElementById("currencyName").textContent =
+    account.name;
+
+
+  document.getElementById("balance").textContent =
+    account.balance;
+
+
+  document.getElementById("accountNumber").textContent =
+    account.number;
+
 
   </script>
 

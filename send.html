@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta name="description" content="Send money securely with OVARA">
+  <meta name="theme-color" content="#0b0f19">
+
+  <title>Send Money — OVARA</title>
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      background: #f5f7fa;
+      color: #111827;
+      min-height: 100vh;
+    }
+
+    .header {
+      background: #ffffff;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .back-btn {
+      width: 42px;
+      height: 42px;
+      border: none;
+      border-radius: 50%;
+      background: #f1f3f5;
+      color: #111827;
+      font-size: 25px;
+      cursor: pointer;
+    }
+
+    .header h1 {
+      font-size: 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 520px;
+      margin: auto;
+      padding: 25px 20px 45px;
+    }
+
+    .intro {
+      margin-bottom: 25px;
+    }
+
+    .intro h2 {
+      font-size: 24px;
+      margin-bottom: 8px;
+    }
+
+    .intro p {
+      color: #6b7280;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .card {
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 20px;
+      margin-bottom: 20px;
+      border: 1px solid #e5e7eb;
+    }
+
+    .field {
+      margin-bottom: 18px;
+    }
+
+    .field:last-child {
+      margin-bottom: 0;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #374151;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 15px;
+      border: 1px solid #d1d5db;
+      border-radius: 11px;
+      background: #ffffff;
+      color: #111827;
+      font-size: 15px;
+      outline: none;
+    }
+
+    input:focus,
+    select:focus {
+      border-color: #111827;
+    }
+
+    .amount-wrapper {
+      position: relative;
+    }
+
+    .currency-symbol {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-weight: 700;
+      color: #374151;
+    }
+
+    .amount-input {
+      padding-left: 35px;
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    .balance-box {
+      background: #f3f4f6;
+      border-radius: 12px;
+      padding: 13px;
+      margin-top: 10px;
+      font-size: 13px;
+      color: #6b7280;
+    }
+
+    .security-box {
+      background: #111827;
+      color: #ffffff;
+      border-radius: 16px;
+      padding: 18px;
+      margin-bottom: 20px;
+    }
+
+    .security-box strong {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 14px;
+    }
+
+    .security-box p {
+      color: #cbd5e1;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .continue-btn {
+      width: 100%;
+      padding: 16px;
+      border: none;
+      border-radius: 12px;
+      background: #111827;
+      color: #ffffff;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .continue-btn:active {
+      transform: scale(0.99);
+    }
+
+    .notice {
+      text-align: center;
+      color: #6b7280;
+      font-size: 11px;
+      line-height: 1.5;
+      margin-top: 20px;
+    }
+
+  </style>
+
+  <link rel="manifest" href="manifest.json">
+
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="OVARA">
+
+</head>
+
+<body>
+
+  <header class="header">
+
+    <button class="back-btn" onclick="goBack()">
+      ‹
+    </button>
+
+    <h1>Send Money</h1>
+
+  </header>
+
+
+  <main class="container">
+
+    <section class="intro">
+
+      <h2>Send money securely</h2>
+
+      <p>
+        Choose the currency you want to send and enter the
+        recipient's details.
+      </p>
+
+    </section>
+
+
+    <section class="card">
+
+      <div class="field">
+
+        <label for="currency">
+          From account
+        </label>
+
+        <select id="currency" onchange="updateCurrency()">
+
+          <option value="NGN">
+            🇳🇬 NGN — Nigerian Naira
+          </option>
+
+          <option value="USD">
+            🇺🇸 USD — US Dollar
+          </option>
+
+          <option value="GBP">
+            🇬🇧 GBP — British Pound
+          </option>
+
+          <option value="EUR">
+            🇪🇺 EUR — Euro
+          </option>
+
+        </select>
+
+        <div class="balance-box" id="balance">
+          Available balance: ₦0.00
+        </div>
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="recipient">
+          Recipient
+        </label>
+
+        <input
+          type="text"
+          id="recipient"
+          placeholder="Phone number, email or account number"
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="amount">
+          Amount
+        </label>
+
+        <div class="amount-wrapper">
+
+          <span class="currency-symbol" id="currencySymbol">
+            ₦
+          </span>
+
+          <input
+            type="number"
+            id="amount"
+            class="amount-input"
+            placeholder="0.00"
+            min="0"
+            step="0.01"
+          >
+
+        </div>
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="description">
+          Description
+        </label>
+
+        <input
+          type="text"
+          id="description"
+          placeholder="What's this payment for? (optional)"
+        >
+
+      </div>
+
+    </section>
+
+
+    <section class="security-box">
+
+      <strong>🔐 Secure transfer</strong>
+
+      <p>
+        OVARA will verify the recipient, available balance and
+        transaction risk before a transfer is completed.
+        Additional verification may be required for sensitive
+        transactions.
+      </p>
+
+    </section>
+
+
+    <button class="continue-btn" onclick="continueTransfer()">
+      Continue
+    </button>
+
+
+    <div class="notice">
+
+      Transfers, recipient verification, transaction PIN,
+      OTP and real-time banking connections will be connected
+      through the secure OVARA backend.
+
+    </div>
+
+  </main>
+
+
+  <script>
+
+    const currencyData = {
+
+      NGN: {
+        symbol: "₦",
+        balance: "₦0.00"
+      },
+
+      USD: {
+        symbol: "$",
+        balance: "$0.00"
+      },
+
+      GBP: {
+        symbol: "£",
+        balance: "£0.00"
+      },
+
+      EUR: {
+        symbol: "€",
+        balance: "€0.00"
+      }
+
+    };
+
+
+    function updateCurrency() {
+
+      const currency =
+        document.getElementById("currency").value;
+
+      const data =
+        currencyData[currency];
+
+      document.getElementById("currencySymbol")
+        .textContent = data.symbol;
+
+      document.getElementById("balance")
+        .textContent =
+        "Available balance: " + data.balance;
+
+    }
+
+
+    function continueTransfer() {
+
+      const recipient =
+        document.getElementById("recipient")
+          .value.trim();
+
+      const amount =
+        document.getElementById("amount")
+          .value.trim();
+
+      if (!recipient) {
+
+        alert("Please enter the recipient's details.");
+        return;
+
+      }
+
+
+      if (!amount || Number(amount) <= 0) {
+
+        alert("Please enter a valid amount.");
+        return;
+
+      }
+
+
+      alert(
+        "Transfer confirmation and security verification will be connected to the secure OVARA backend."
+      );
+
+    }
+
+
+    function goBack() {
+
+      window.location.href =
+        "dashboard.html";
+
+    }
+
+
+    // OVARA PWA
+
+    if ("serviceWorker" in navigator) {
+
+      window.addEventListener("load", () => {
+
+        navigator.serviceWorker.register("./sw.js")
+
+          .then(() => {
+
+            console.log(
+              "OVARA service worker registered."
+            );
+
+          })
+
+          .catch(error => {
+
+            console.error(
+              "OVARA service worker registration failed:",
+              error
+            );
+
+          });
+
+      });
+
+    }
+
+  </script>
+
+</body>
+</html>

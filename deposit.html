@@ -509,6 +509,26 @@ document
   const reference =
     "OVA" +
     Date.now().toString().slice(-10);
+      const transaction = {
+    id: reference,
+    type: "Deposit",
+    amount: Number(amount),
+    currency: "NGN",
+    account: "NGN Account",
+    method: methodName,
+    status: "successful",
+    date: new Date().toISOString()
+  };
+
+  const transactions =
+    JSON.parse(localStorage.getItem("ovaraTransactions")) || [];
+
+  transactions.unshift(transaction);
+
+  localStorage.setItem(
+    "ovaraTransactions",
+    JSON.stringify(transactions)
+  );
 
   const container =
     document.querySelector(".container");

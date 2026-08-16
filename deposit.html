@@ -564,6 +564,109 @@ document
           align-items:center;
           justify-content:center;
           font-size:34px;
+function confirmDeposit() {
+  const amount = document
+    .getElementById("amount")
+    .value
+    .replace(/,/g, "");
+
+  const method = document.querySelector(
+    'input[name="method"]:checked'
+  );
+
+  const methodName =
+    method && method.value === "bank"
+      ? "Bank Transfer"
+      : "Debit Card";
+
+  const formattedAmount =
+    Number(amount).toLocaleString("en-NG", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    });
+
+  const reference =
+    "OVA" + Date.now().toString().slice(-10);
+
+  const transaction = {
+    id: reference,
+    type: "Deposit",
+    amount: Number(amount),
+    currency: "NGN",
+    account: "NGN Account",
+    method: methodName,
+    status: "successful",
+    date: new Date().toISOString()
+  };
+
+  // Get existing transactions
+  const transactions =
+    JSON.parse(localStorage.getItem("ovaraTransactions")) || [];
+
+  // Add the new transaction
+  transactions.unshift(transaction);
+
+  // Save transactions
+  localStorage.setItem(
+    "ovaraTransactions",
+    JSON.stringify(transactions)
+  );
+
+  const container =
+    document.querySelector(".container");
+
+  container.innerHTML = `
+    <section class="intro">
+      <h1>Processing deposit</h1>
+      <p>Please wait while we process your deposit.</p>
+    </section>
+
+    <section class="card" style="text-align:center; padding:35px 20px;">
+
+      <div style="
+        width:65px;
+        height:65px;
+        margin:0 auto 20px;
+        border-radius:50%;
+        background:#f1f5f9;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        font-size:30px;
+      ">
+        ⏳
+      </div>
+
+      <h2 style="margin-bottom:10px;">
+        Processing...
+      </h2>
+
+      <p style="
+        color:#6b7280;
+        font-size:14px;
+        line-height:1.5;
+      ">
+        Your deposit request is being processed securely.
+      </p>
+
+    </section>
+  `;
+
+  setTimeout(() => {
+
+    container.innerHTML = `
+      <section class="intro" style="text-align:center;">
+
+        <div style="
+          width:70px;
+          height:70px;
+          margin:0 auto 18px;
+          border-radius:50%;
+          background:#e8f7ee;
+          display:flex;
+          align-items:center;
+          justify-content:center;
+          font-size:34px;
         ">
           ✓
         </div>
@@ -573,6 +676,7 @@ document
         <p>
           Your deposit has been successfully recorded.
         </p>
+
       </section>
 
       <section class="card">
@@ -630,6 +734,21 @@ document
           display:flex;
           justify-content:space-between;
           padding:12px 0;
+          border-bottom:1px solid #e5e7eb;
+        ">
+          <span style="color:#6b7280;">
+            Status
+          </span>
+
+          <strong style="color:#16803c;">
+            Successful
+          </strong>
+        </div>
+
+        <div style="
+          display:flex;
+          justify-content:space-between;
+          padding:12px 0;
         ">
           <span style="color:#6b7280;">
             Reference
@@ -673,7 +792,7 @@ document
     `;
 
   }, 1800);
-}
+             }
 </script>
 
 </body>

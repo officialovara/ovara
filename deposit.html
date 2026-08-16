@@ -346,45 +346,44 @@
   function goBack() {
     window.location.href = "dashboard.html";
   }
-function formatAmountInput(input) {
-  let value = input.value.replace(/,/g, "");
 
-  if (value === "") {
-    input.value = "";
-    return;
+  function formatAmountInput(input) {
+    let value = input.value.replace(/,/g, "");
+
+    if (value === "") {
+      input.value = "";
+      return;
+    }
+
+    value = value.replace(/[^\d.]/g, "");
+
+    const parts = value.split(".");
+
+    let wholePart = parts[0];
+    let decimalPart = parts[1] || "";
+
+    decimalPart = decimalPart.substring(0, 2);
+
+    wholePart = Number(wholePart || 0).toLocaleString("en-NG");
+
+    input.value =
+      decimalPart.length > 0
+        ? wholePart + "." + decimalPart
+        : wholePart;
   }
 
-  // Allow only numbers and one decimal point
-  value = value.replace(/[^\d.]/g, "");
-
-  const parts = value.split(".");
-
-  let wholePart = parts[0];
-  let decimalPart = parts[1] || "";
-
-  // Limit decimals to 2 places
-  decimalPart = decimalPart.substring(0, 2);
-
-  // Add commas
-  wholePart = Number(wholePart || 0).toLocaleString("en-NG");
-
-  input.value =
-    decimalPart.length > 0
-      ? wholePart + "." + decimalPart
-      : wholePart;
-}
-
-document
-  .getElementById("amount")
-  .addEventListener("input", function () {
-    formatAmountInput(this);
-  });
+  document
+    .getElementById("amount")
+    .addEventListener("input", function () {
+      formatAmountInput(this);
+    });
 
   function continueDeposit() {
     const amount = document
-  .getElementById("amount")
-  .value
-  .replace(/,/g, "");
+      .getElementById("amount")
+      .value
+      .replace(/,/g, "");
+
     const method = document.querySelector(
       'input[name="method"]:checked'
     );
@@ -399,7 +398,10 @@ document
       return;
     }
 
-    const formattedAmount = Number(amount).toLocaleString();
+    const formattedAmount = Number(amount).toLocaleString("en-NG", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    });
 
     const methodName =
       method.value === "bank"
@@ -409,7 +411,6 @@ document
     const confirmation = document.createElement("div");
 
     confirmation.className = "card";
-
     confirmation.style.marginTop = "20px";
 
     confirmation.innerHTML = `
@@ -477,7 +478,9 @@ document
       </button>
     `;
 
-    document.querySelector(".container").appendChild(confirmation);
+    document
+      .querySelector(".container")
+      .appendChild(confirmation);
 
     confirmation.scrollIntoView({
       behavior: "smooth",
@@ -486,333 +489,236 @@ document
   }
 
   function confirmDeposit() {
-  const amount = document
-    .getElementById("amount")
-    .value
-    .replace(/,/g, "");
+    const amount = document
+      .getElementById("amount")
+      .value
+      .replace(/,/g, "");
 
-  const method = document.querySelector(
-    'input[name="method"]:checked'
-  );
+    const method = document.querySelector(
+      'input[name="method"]:checked'
+    );
 
-  const methodName =
-    method && method.value === "bank"
-      ? "Bank Transfer"
-      : "Debit Card";
+    const methodName =
+      method && method.value === "bank"
+        ? "Bank Transfer"
+        : "Debit Card";
 
-  const formattedAmount =
-    Number(amount).toLocaleString("en-NG", {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2
-    });
+    const formattedAmount =
+      Number(amount).toLocaleString("en-NG", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      });
 
-  const reference =
-    "OVA" +
-    Date.now().toString().slice(-10);
-      const transaction = {
-    id: reference,
-    type: "Deposit",
-    amount: Number(amount),
-    currency: "NGN",
-    account: "NGN Account",
-    method: methodName,
-    status: "successful",
-    date: new Date().toISOString()
-  };
+    const reference =
+      "OVA" + Date.now().toString().slice(-10);
 
-  const transactions =
-    JSON.parse(localStorage.getItem("ovaraTransactions")) || [];
+    const transaction = {
+      id: reference,
+      type: "Deposit",
+      amount: Number(amount),
+      currency: "NGN",
+      account: "NGN Account",
+      method: methodName,
+      status: "successful",
+      date: new Date().toISOString()
+    };
 
-  transactions.unshift(transaction);
+    const transactions =
+      JSON.parse(
+        localStorage.getItem("ovaraTransactions")
+      ) || [];
 
-  localStorage.setItem(
-    "ovaraTransactions",
-    JSON.stringify(transactions)
-  );
+    transactions.unshift(transaction);
 
-  const container =
-    document.querySelector(".container");
+    localStorage.setItem(
+      "ovaraTransactions",
+      JSON.stringify(transactions)
+    );
 
-  container.innerHTML = `
-    <section class="intro">
-      <h1>Processing deposit</h1>
-      <p>Please wait while we process your deposit.</p>
-    </section>
-
-    <section class="card" style="text-align:center; padding:35px 20px;">
-
-      <div style="
-        width:65px;
-        height:65px;
-        margin:0 auto 20px;
-        border-radius:50%;
-        background:#f1f5f9;
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        font-size:30px;
-      ">
-        ⏳
-      </div>
-
-      <h2 style="margin-bottom:10px;">
-        Processing...
-      </h2>
-
-      <p style="
-        color:#6b7280;
-        font-size:14px;
-        line-height:1.5;
-      ">
-        Your deposit request is being processed securely.
-      </p>
-
-    </section>
-  `;
-
-  setTimeout(() => {
+    const container =
+      document.querySelector(".container");
 
     container.innerHTML = `
-      <section class="intro" style="text-align:center;">
+      <section class="intro">
+        <h1>Processing deposit</h1>
+        <p>Please wait while we process your deposit.</p>
+      </section>
+
+      <section class="card" style="
+        text-align:center;
+        padding:35px 20px;
+      ">
+
         <div style="
-          width:70px;
-          height:70px;
-          margin:0 auto 18px;
+          width:65px;
+          height:65px;
+          margin:0 auto 20px;
           border-radius:50%;
-          background:#e8f7ee;
+          background:#f1f5f9;
           display:flex;
           align-items:center;
           justify-content:center;
-          font-size:34px;
-function confirmDeposit() {
-  const amount = document
-    .getElementById("amount")
-    .value
-    .replace(/,/g, "");
-
-  const method = document.querySelector(
-    'input[name="method"]:checked'
-  );
-
-  const methodName =
-    method && method.value === "bank"
-      ? "Bank Transfer"
-      : "Debit Card";
-
-  const formattedAmount =
-    Number(amount).toLocaleString("en-NG", {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2
-    });
-
-  const reference =
-    "OVA" + Date.now().toString().slice(-10);
-
-  const transaction = {
-    id: reference,
-    type: "Deposit",
-    amount: Number(amount),
-    currency: "NGN",
-    account: "NGN Account",
-    method: methodName,
-    status: "successful",
-    date: new Date().toISOString()
-  };
-
-  // Get existing transactions
-  const transactions =
-    JSON.parse(localStorage.getItem("ovaraTransactions")) || [];
-
-  // Add the new transaction
-  transactions.unshift(transaction);
-
-  // Save transactions
-  localStorage.setItem(
-    "ovaraTransactions",
-    JSON.stringify(transactions)
-  );
-
-  const container =
-    document.querySelector(".container");
-
-  container.innerHTML = `
-    <section class="intro">
-      <h1>Processing deposit</h1>
-      <p>Please wait while we process your deposit.</p>
-    </section>
-
-    <section class="card" style="text-align:center; padding:35px 20px;">
-
-      <div style="
-        width:65px;
-        height:65px;
-        margin:0 auto 20px;
-        border-radius:50%;
-        background:#f1f5f9;
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        font-size:30px;
-      ">
-        ⏳
-      </div>
-
-      <h2 style="margin-bottom:10px;">
-        Processing...
-      </h2>
-
-      <p style="
-        color:#6b7280;
-        font-size:14px;
-        line-height:1.5;
-      ">
-        Your deposit request is being processed securely.
-      </p>
-
-    </section>
-  `;
-
-  setTimeout(() => {
-
-    container.innerHTML = `
-      <section class="intro" style="text-align:center;">
-
-        <div style="
-          width:70px;
-          height:70px;
-          margin:0 auto 18px;
-          border-radius:50%;
-          background:#e8f7ee;
-          display:flex;
-          align-items:center;
-          justify-content:center;
-          font-size:34px;
+          font-size:30px;
         ">
-          ✓
+          ⏳
         </div>
 
-        <h1>Deposit successful</h1>
+        <h2 style="margin-bottom:10px;">
+          Processing...
+        </h2>
 
-        <p>
-          Your deposit has been successfully recorded.
+        <p style="
+          color:#6b7280;
+          font-size:14px;
+          line-height:1.5;
+        ">
+          Your deposit request is being processed securely.
         </p>
 
       </section>
-
-      <section class="card">
-
-        <div class="card-title">
-          Transaction details
-        </div>
-
-        <div style="
-          display:flex;
-          justify-content:space-between;
-          padding:12px 0;
-          border-bottom:1px solid #e5e7eb;
-        ">
-          <span style="color:#6b7280;">
-            Amount
-          </span>
-
-          <strong>
-            ₦${formattedAmount}
-          </strong>
-        </div>
-
-        <div style="
-          display:flex;
-          justify-content:space-between;
-          padding:12px 0;
-          border-bottom:1px solid #e5e7eb;
-        ">
-          <span style="color:#6b7280;">
-            Method
-          </span>
-
-          <strong>
-            ${methodName}
-          </strong>
-        </div>
-
-        <div style="
-          display:flex;
-          justify-content:space-between;
-          padding:12px 0;
-          border-bottom:1px solid #e5e7eb;
-        ">
-          <span style="color:#6b7280;">
-            Account
-          </span>
-
-          <strong>
-            NGN Account
-          </strong>
-        </div>
-
-        <div style="
-          display:flex;
-          justify-content:space-between;
-          padding:12px 0;
-          border-bottom:1px solid #e5e7eb;
-        ">
-          <span style="color:#6b7280;">
-            Status
-          </span>
-
-          <strong style="color:#16803c;">
-            Successful
-          </strong>
-        </div>
-
-        <div style="
-          display:flex;
-          justify-content:space-between;
-          padding:12px 0;
-        ">
-          <span style="color:#6b7280;">
-            Reference
-          </span>
-
-          <strong style="font-size:13px;">
-            ${reference}
-          </strong>
-        </div>
-
-      </section>
-
-      <button
-        class="continue-btn"
-        onclick="window.location.href='dashboard.html'"
-      >
-        Back to Dashboard
-      </button>
-
-      <button
-        onclick="window.location.href='dashboard.html'"
-        style="
-          width:100%;
-          border:none;
-          background:#f1f5f9;
-          color:#111827;
-          padding:15px;
-          border-radius:14px;
-          font-size:15px;
-          font-weight:600;
-          cursor:pointer;
-          margin-top:10px;
-        "
-      >
-        Done
-      </button>
-
-      <div class="security">
-        🔒 OVARA transaction reference: ${reference}
-      </div>
     `;
 
-  }, 1800);
-             }
+    setTimeout(() => {
+
+      container.innerHTML = `
+        <section class="intro" style="text-align:center;">
+
+          <div style="
+            width:70px;
+            height:70px;
+            margin:0 auto 18px;
+            border-radius:50%;
+            background:#e8f7ee;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:34px;
+          ">
+            ✓
+          </div>
+
+          <h1>Deposit successful</h1>
+
+          <p>
+            Your deposit has been successfully recorded.
+          </p>
+
+        </section>
+
+        <section class="card">
+
+          <div class="card-title">
+            Transaction details
+          </div>
+
+          <div style="
+            display:flex;
+            justify-content:space-between;
+            padding:12px 0;
+            border-bottom:1px solid #e5e7eb;
+          ">
+            <span style="color:#6b7280;">
+              Amount
+            </span>
+
+            <strong>
+              ₦${formattedAmount}
+            </strong>
+          </div>
+
+          <div style="
+            display:flex;
+            justify-content:space-between;
+            padding:12px 0;
+            border-bottom:1px solid #e5e7eb;
+          ">
+            <span style="color:#6b7280;">
+              Method
+            </span>
+
+            <strong>
+              ${methodName}
+            </strong>
+          </div>
+
+          <div style="
+            display:flex;
+            justify-content:space-between;
+            padding:12px 0;
+            border-bottom:1px solid #e5e7eb;
+          ">
+            <span style="color:#6b7280;">
+              Account
+            </span>
+
+            <strong>
+              NGN Account
+            </strong>
+          </div>
+
+          <div style="
+            display:flex;
+            justify-content:space-between;
+            padding:12px 0;
+            border-bottom:1px solid #e5e7eb;
+          ">
+            <span style="color:#6b7280;">
+              Status
+            </span>
+
+            <strong style="color:#16803c;">
+              Successful
+            </strong>
+          </div>
+
+          <div style="
+            display:flex;
+            justify-content:space-between;
+            padding:12px 0;
+          ">
+            <span style="color:#6b7280;">
+              Reference
+            </span>
+
+            <strong style="font-size:13px;">
+              ${reference}
+            </strong>
+          </div>
+
+        </section>
+
+        <button
+          class="continue-btn"
+          onclick="window.location.href='dashboard.html'"
+        >
+          Back to Dashboard
+        </button>
+
+        <button
+          onclick="window.location.href='dashboard.html'"
+          style="
+            width:100%;
+            border:none;
+            background:#f1f5f9;
+            color:#111827;
+            padding:15px;
+            border-radius:14px;
+            font-size:15px;
+            font-weight:600;
+            cursor:pointer;
+            margin-top:10px;
+          "
+        >
+          Done
+        </button>
+
+        <div class="security">
+          🔒 OVARA transaction reference: ${reference}
+        </div>
+      `;
+
+    }, 1800);
+  }
 </script>
 
 </body>

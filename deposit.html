@@ -342,43 +342,120 @@
 
   </main>
 
-  <script>
-    function goBack() {
-      window.location.href = "dashboard.html";
+<script>
+  function goBack() {
+    window.location.href = "dashboard.html";
+  }
+
+  function continueDeposit() {
+    const amount = document.getElementById("amount").value;
+    const method = document.querySelector(
+      'input[name="method"]:checked'
+    );
+
+    if (!amount || Number(amount) <= 0) {
+      alert("Please enter a valid deposit amount.");
+      return;
     }
 
-    function continueDeposit() {
-      const amount = document.getElementById("amount").value;
-      const method = document.querySelector(
-        'input[name="method"]:checked'
-      );
-
-      if (!amount || Number(amount) <= 0) {
-        alert("Please enter a valid deposit amount.");
-        return;
-      }
-
-      if (!method) {
-        alert("Please select a deposit method.");
-        return;
-      }
-
-      /*
-        Deposit processing will be connected here later.
-
-        For now, the page validates the amount and
-        selected deposit method without processing
-        any real money.
-      */
-
-      alert(
-        "Deposit setup ready.\n\n" +
-        "Amount: ₦" + Number(amount).toLocaleString() +
-        "\nMethod: " +
-        (method.value === "bank" ? "Bank Transfer" : "Debit Card")
-      );
+    if (!method) {
+      alert("Please select a deposit method.");
+      return;
     }
-  </script>
+
+    const formattedAmount = Number(amount).toLocaleString();
+
+    const methodName =
+      method.value === "bank"
+        ? "Bank Transfer"
+        : "Debit Card";
+
+    const confirmation = document.createElement("div");
+
+    confirmation.className = "card";
+
+    confirmation.style.marginTop = "20px";
+
+    confirmation.innerHTML = `
+      <div class="card-title">Confirm Deposit</div>
+
+      <div style="
+        background:#f8fafc;
+        border:1px solid #e5e7eb;
+        border-radius:14px;
+        padding:16px;
+        margin-bottom:15px;
+      ">
+
+        <div style="
+          display:flex;
+          justify-content:space-between;
+          margin-bottom:12px;
+        ">
+          <span style="color:#6b7280;">Amount</span>
+          <strong>₦${formattedAmount}</strong>
+        </div>
+
+        <div style="
+          display:flex;
+          justify-content:space-between;
+          margin-bottom:12px;
+        ">
+          <span style="color:#6b7280;">Method</span>
+          <strong>${methodName}</strong>
+        </div>
+
+        <div style="
+          display:flex;
+          justify-content:space-between;
+        ">
+          <span style="color:#6b7280;">Account</span>
+          <strong>NGN Account</strong>
+        </div>
+
+      </div>
+
+      <button
+        class="continue-btn"
+        onclick="confirmDeposit()"
+      >
+        Confirm Deposit
+      </button>
+
+      <button
+        onclick="this.parentElement.remove()"
+        style="
+          width:100%;
+          border:none;
+          background:#f1f5f9;
+          color:#111827;
+          padding:15px;
+          border-radius:14px;
+          font-size:15px;
+          font-weight:600;
+          cursor:pointer;
+          margin-top:10px;
+        "
+      >
+        ← Edit Deposit
+      </button>
+    `;
+
+    document.querySelector(".container").appendChild(confirmation);
+
+    confirmation.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+  }
+
+  function confirmDeposit() {
+    alert(
+      "Deposit confirmation successful.\n\n" +
+      "Payment processing will be connected in the next step."
+    );
+  }
+</script>
 
 </body>
 </html>

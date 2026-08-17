@@ -510,18 +510,20 @@
       });
 
     const reference =
-      "OVA" + Date.now().toString().slice(-10);
+  "OVA" + Date.now().toString().slice(-10);
 
-    const transaction = {
-      id: reference,
-      type: "Deposit",
-      amount: Number(amount),
-      currency: "NGN",
-      account: "NGN Account",
-      method: methodName,
-      status: "successful",
-      date: new Date().toISOString()
-    };
+const transactionDate = new Date();
+
+const transaction = {
+  id: reference,
+  type: "Deposit",
+  amount: Number(amount),
+  currency: "NGN",
+  account: "NGN Account",
+  method: methodName,
+  status: "successful",
+  date: transactionDate.toISOString()
+};
 
     const transactions =
       JSON.parse(
@@ -602,6 +604,17 @@
           <p>
             Your deposit has been successfully recorded.
           </p>
+          <p style="
+  margin-top:15px;
+  color:#374151;
+  font-size:14px;
+  font-weight:600;
+">
+  ${transactionDate.toLocaleString("en-NG", {
+    dateStyle: "full",
+    timeStyle: "medium"
+  })}
+</p>
 
         </section>
 

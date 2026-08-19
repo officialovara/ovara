@@ -839,17 +839,13 @@ function loadRecentActivity() {
   if (transactions.length === 0) {
     activity.innerHTML = `
       <div class="empty">
-
-        <div class="empty-icon">
-          ◌
-        </div>
+        <div class="empty-icon">◌</div>
 
         <strong>No transactions yet</strong>
 
         <p>
           Your deposits, transfers and payments will appear here.
         </p>
-
       </div>
     `;
 
@@ -884,6 +880,24 @@ function loadRecentActivity() {
           : status === "declined"
           ? "#dc2626"
           : "#b7791f";
+
+      /* TRANSACTION DATE & TIME */
+      let transactionDateTime = "";
+
+      if (transaction.date) {
+        const date = new Date(transaction.date);
+
+        transactionDateTime =
+          date.toLocaleString("en-NG", {
+            day: "2-digit",
+            month: "short",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+            hour12: true
+          });
+      }
 
       return `
         <div style="
@@ -940,6 +954,15 @@ function loadRecentActivity() {
                 font-weight:600;
               ">
                 ${statusText}
+              </span>
+
+              <span style="
+                display:block;
+                color:#6b7280;
+                font-size:11px;
+                margin-top:4px;
+              ">
+                ${transactionDateTime}
               </span>
 
             </div>

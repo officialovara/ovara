@@ -497,9 +497,9 @@
   <span>Deposit</span>
         </button>
 
-        <button class="action" onclick="actionMessage('Withdraw')">
-          <div class="action-icon">−</div>
-          <span>Withdraw</span>
+        <button class="action" onclick="withdrawMoney()">
+  <div class="action-icon">−</div>
+  <span>Withdraw</span>
         </button>
 
       </div>
@@ -941,8 +941,12 @@ document.addEventListener(
   "DOMContentLoaded",
   loadRecentActivity
 );
-  
+
+function withdrawMoney() {
+  window.location.href = "linked-banks.html";
+}
+
 </script>
 
 </body>
-        </html>
+</html>

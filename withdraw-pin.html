@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Transaction PIN — OVARA</title>
+
+<style>
+:root{
+--bg:#f5f7fb;
+--surface:#ffffff;
+--text:#111827;
+--muted:#6b7280;
+--accent:#111827;
+--border:#e5e7eb;
+--shadow:0 10px 30px rgba(0,0,0,.08);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+font-family:Arial,Helvetica,sans-serif;
+background:var(--bg);
+color:var(--text);
+display:flex;
+flex-direction:column;
+min-height:100vh;
+}
+header{
+display:flex;
+align-items:center;
+gap:15px;
+padding:20px;
+}
+.back{
+width:42px;
+height:42px;
+border:none;
+border-radius:12px;
+background:var(--surface);
+box-shadow:var(--shadow);
+font-size:18px;
+cursor:pointer;
+}
+.container{
+flex:1;
+padding:10px 20px 30px;
+display:flex;
+flex-direction:column;
+align-items:center;
+}
+.lock{
+font-size:54px;
+margin:15px 0;
+}
+h2{
+font-size:26px;
+margin-bottom:6px;
+}
+.subtitle{
+color:var(--muted);
+text-align:center;
+margin-bottom:30px;
+}
+.pin-dots{
+display:flex;
+gap:16px;
+margin-bottom:40px;
+}
+.dot{
+width:18px;
+height:18px;
+border-radius:50%;
+border:2px solid var(--accent);
+background:transparent;
+transition:.2s;
+}
+.dot.active{
+background:var(--accent);
+}
+.keypad{
+width:100%;
+max-width:340px;
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:14px;
+}
+.key{
+height:70px;
+border:none;
+border-radius:18px;
+background:var(--surface);
+box-shadow:var(--shadow);
+font-size:26px;
+font-weight:700;
+cursor:pointer;
+}
+.key:active{
+transform:scale(.96);
+}
+.loading{
+display:none;
+margin-top:25px;
+color:var(--muted);
+font-weight:600;
+}
+.spinner{
+width:22px;
+height:22px;
+border:3px solid #d1d5db;
+border-top:3px solid var(--accent);
+border-radius:50%;
+animation:spin .8s linear infinite;
+display:inline-block;
+vertical-align:middle;
+margin-right:10px;
+}
+@keyframes spin{
+to{transform:rotate(360deg);}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<button class="back" onclick="history.back()">←</button>
+<div>
+<h3>Transaction PIN</h3>
+</div>
+</header>
+
+<div class="container">
+
+<div class="lock">🔐</div>
+
+<h2>Enter your PIN</h2>
+
+<p class="subtitle">
+Confirm this withdrawal with your 6-digit OVARA Transaction PIN.
+</p>
+
+<div class="pin-dots">
+<div class="dot"></div>
+<div class="dot"></div>
+<div class="dot"></div>
+<div class="dot"></div>
+<div class="dot"></div>
+<div class="dot"></div>
+</div>
+
+<div class="keypad">
+<button class="key" onclick="press(1)">1</button>
+<button class="key" onclick="press(2)">2</button>
+<button class="key" onclick="press(3)">3</button>
+
+<button class="key" onclick="press(4)">4</button>
+<button class="key" onclick="press(5)">5</button>
+<button class="key" onclick="press(6)">6</button>
+
+<button class="key" onclick="press(7)">7</button>
+<button class="key" onclick="press(8)">8</button>
+<button class="key" onclick="press(9)">9</button>
+
+<button class="key" onclick="backspace()">⌫</button>
+<button class="key" onclick="press(0)">0</button>
+<button class="key" onclick="backspace()">←</button>
+</div>
+
+<div class="loading" id="loading">
+<span class="spinner"></span> Verifying...
+</div>
+
+</div>
+
+<script>
+let pin="";
+const dots=document.querySelectorAll(".dot");
+const loading=document.getElementById("loading");
+
+function updateDots(){
+dots.forEach((dot,index)=>{
+dot.classList.toggle("active",index<pin.length);
+});
+}
+
+function press(num){
+if(pin.length>=6)return;
+
+pin+=num;
+updateDots();
+
+if(pin.length===6){
+loading.style.display="block";
+
+setTimeout(()=>{
+window.location.href="withdraw-success.html";
+},1500);
+}
+}
+
+function backspace(){
+pin=pin.slice(0,-1);
+updateDots();
+}
+</script>
+
+</body>
+</html>

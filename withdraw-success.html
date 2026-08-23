@@ -243,24 +243,50 @@ function finish(){
 }
 
 async function shareReceipt(){
+
 const text=`OVARA Withdrawal Receipt
 
 Amount: ${amount}
-Bank: ${bank?.bank}
-Account: ****${bank?.accountNumber.slice(-4)}
+Bank: ${bank?.bank || "Bank"}
+Account: ****${bank?.accountNumber?.slice(-4) || "----"}
 Time: ${time}
 Reference: ${ref}
 Status: Successful`;
 
 if(navigator.share){
+
+  try{
+
+    await navigator.share({
+      title:"OVARA Withdrawal Receipt",
+      text:text
+    });
+
+    return;
+
+  }catch(e){
+
+    // User cancelled sharing — do nothing
+    if(e.name === "AbortError"){
+      return;
+    }
+
+  }
+
+}
+
 try{
-await navigator.share({
-title:"OVARA Withdrawal Receipt",
-text:text
-});
-}catch(e){}
-}else{
-alert("Sharing is not supported on this device.");
+
+  await navigator.clipboard.writeText(text);
+
+  alert("Receipt copied. You can now paste it into WhatsApp or any other app.");
+
+}catch(e){
+
+  alert("Sharing is not supported on this device.");
+
+}
+
 }
 
 }

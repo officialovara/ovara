@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Withdrawal Successful — OVARA</title>
+
+<style>
+:root{
+--bg:#f5f7fb;
+--surface:#fff;
+--text:#111827;
+--muted:#6b7280;
+--border:#e5e7eb;
+--accent:#111827;
+--success:#16a34a;
+--shadow:0 10px 30px rgba(0,0,0,.08);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+font-family:Arial,Helvetica,sans-serif;
+background:var(--bg);
+color:var(--text);
+padding:20px;
+}
+.container{
+max-width:420px;
+margin:auto;
+}
+.success{
+text-align:center;
+margin:30px 0;
+}
+.circle{
+width:90px;
+height:90px;
+margin:auto;
+background:#dcfce7;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:46px;
+animation:pop .5s ease;
+}
+@keyframes pop{
+0%{transform:scale(.6);}
+100%{transform:scale(1);}
+}
+.success h1{
+margin-top:18px;
+font-size:28px;
+}
+.success p{
+margin-top:8px;
+color:var(--muted);
+}
+.amount{
+font-size:38px;
+font-weight:700;
+margin-top:18px;
+}
+.card{
+background:var(--surface);
+border:1px solid var(--border);
+border-radius:20px;
+padding:20px;
+box-shadow:var(--shadow);
+}
+.row{
+display:flex;
+justify-content:space-between;
+padding:14px 0;
+}
+.row:not(:last-child){
+border-bottom:1px solid var(--border);
+}
+.label{
+color:var(--muted);
+font-size:14px;
+}
+.value{
+font-weight:700;
+text-align:right;
+}
+.actions{
+margin-top:25px;
+display:flex;
+flex-direction:column;
+gap:12px;
+}
+button{
+padding:16px;
+border:none;
+border-radius:16px;
+font-size:16px;
+font-weight:700;
+cursor:pointer;
+}
+.done{
+background:var(--accent);
+color:#fff;
+}
+.share{
+background:#fff;
+border:1px solid var(--border);
+color:var(--text);
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="success">
+
+<div class="circle">✓</div>
+
+<h1>Withdrawal Successful</h1>
+
+<p>Your money is on its way.</p>
+
+<div class="amount" id="amount">₦0</div>
+
+</div>
+
+<div class="card">
+
+<div class="row">
+<div class="label">Bank</div>
+<div class="value" id="bank">Access Bank</div>
+</div>
+
+<div class="row">
+<div class="label">Account</div>
+<div class="value" id="account">••••3486</div>
+</div>
+
+<div class="row">
+<div class="label">Date & Time</div>
+<div class="value" id="time"></div>
+</div>
+
+<div class="row">
+<div class="label">Reference</div>
+<div class="value" id="ref"></div>
+</div>
+
+<div class="row">
+<div class="label">Status</div>
+<div class="value" style="color:#16a34a;">Successful</div>
+</div>
+
+</div>
+
+<div class="actions">
+
+<button class="done" onclick="finish()">
+Done
+</button>
+
+<button class="share" onclick="shareReceipt()">
+Share Receipt
+</button>
+
+</div>
+
+</div>
+
+<script>
+const bank =
+JSON.parse(localStorage.getItem("ovaraSelectedBank"));
+
+const amount =
+localStorage.getItem("ovaraWithdrawAmount") || "₦0";
+
+const now = new Date();
+
+const time =
+now.toLocaleDateString("en-NG") + " • " +
+now.toLocaleTimeString("en-NG",{
+hour:"2-digit",
+minute:"2-digit"
+});
+
+let ref = localStorage.getItem("ovaraCurrentWithdrawalRef");
+
+if(!ref){
+  ref = "OVR" + Date.now().toString().slice(-8);
+  localStorage.setItem("ovaraCurrentWithdrawalRef", ref);
+}
+
+document.getElementById("amount").textContent=amount;
+document.getElementById("time").textContent=time;
+document.getElementById("ref").textContent=ref;
+
+if(bank){
+document.getElementById("bank").textContent=bank.bank;
+document.getElementById("account").textContent=
+"••••"+bank.accountNumber.slice(-4);
+}
+
+const tx={
+type:"Withdrawal",
+amount:amount.replace(/[₦,]/g,""),
+time:time,
+reference:ref,
+bank:bank?.bank || "Bank"
+};
+
+const history=
+JSON.parse(localStorage.getItem("ovaraTransactions"))||[];
+
+const alreadyExists=
+history.some(item=>item.reference===ref);
+
+if(!alreadyExists){
+  history.unshift(tx);
+
+  localStorage.setItem(
+    "ovaraTransactions",
+    JSON.stringify(history)
+  );
+}
+
+function finish(){
+  localStorage.removeItem("ovaraCurrentWithdrawalRef");
+  localStorage.removeItem("ovaraWithdrawAmount");
+  window.location.href="dashboard.html";
+}
+
+async function shareReceipt(){
+const text=`OVARA Withdrawal Receipt
+
+Amount: ${amount}
+Bank: ${bank?.bank}
+Account: ****${bank?.accountNumber.slice(-4)}
+Time: ${time}
+Reference: ${ref}
+Status: Successful`;
+
+if(navigator.share){
+try{
+await navigator.share({
+title:"OVARA Withdrawal Receipt",
+text:text
+});
+}catch(e){}
+}else{
+alert("Sharing is not supported on this device.");
+}
+
+}
+</script>
+
+</body>
+  </html>

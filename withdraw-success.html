@@ -234,7 +234,6 @@ localStorage.setItem(
   "ovaraTransactions",
   JSON.stringify(history)
 );
-}
 
 function finish(){
   localStorage.removeItem("ovaraCurrentWithdrawalRef");
@@ -266,7 +265,6 @@ if(navigator.share){
 
   }catch(e){
 
-    // User cancelled sharing — do nothing
     if(e.name === "AbortError"){
       return;
     }
@@ -279,15 +277,13 @@ try{
 
   await navigator.clipboard.writeText(text);
 
-  alert("Receipt copied. You can now paste it into WhatsApp or any other app.");
+  alert(
+    "Receipt copied successfully. You can now paste it into WhatsApp or any other app."
+  );
 
 }catch(e){
 
   alert("Sharing is not supported on this device.");
-
-}
-
-}
 
 }
 </script>

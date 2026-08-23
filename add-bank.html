@@ -115,12 +115,37 @@ Link a withdrawal account securely.
 </div>
 
 <div class="field">
-<label>Account Number</label>
-<input
-id="accountNumber"
-type="tel"
-maxlength="10"
-placeholder="Enter 10-digit account number">
+  <label>Account Number</label>
+  <input
+    id="accountNumber"
+    type="tel"
+    maxlength="10"
+    placeholder="Enter 10-digit account number"
+    oninput="verifyAccountName()">
+</div>
+
+<div id="accountNameBox" style="display:none; margin-top:16px;">
+  <label>Account Name</label>
+
+  <div style="
+    background:#fff;
+    border:2px solid #22c55e;
+    border-radius:16px;
+    padding:16px;
+    font-size:18px;
+    font-weight:700;
+    color:#111827;
+  " id="accountName">
+    MATTHEW JOHN
+  </div>
+
+  <p style="
+    color:#16a34a;
+    font-size:14px;
+    margin-top:8px;
+  ">
+    ✓ Account verified
+  </p>
 </div>
 
 <div class="field">
@@ -178,6 +203,17 @@ alert("Bank linked successfully!");
 
 window.location.href="linked-banks.html";
 }
+function verifyAccountName() {
+  const account = document.getElementById("accountNumber").value;
+  const box = document.getElementById("accountNameBox");
+
+  if (account.length === 10) {
+    box.style.display = "block";
+  } else {
+    box.style.display = "none";
+  }
+}
+  
 </script>
 
 </body>

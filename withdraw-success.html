@@ -206,22 +206,34 @@ type:"Withdrawal",
 amount:amount.replace(/[₦,]/g,""),
 time:time,
 reference:ref,
-bank:bank?.bank || "Bank"
+bank:bank?.bank || "Bank",
+status:"Successful"
 };
 
 const history=
 JSON.parse(localStorage.getItem("ovaraTransactions"))||[];
 
-const alreadyExists=
-history.some(item=>item.reference===ref);
+const existingIndex=
+history.findIndex(item=>item.reference===ref);
 
-if(!alreadyExists){
+if(existingIndex !== -1){
+
+  history[existingIndex]={
+    ...history[existingIndex],
+    ...tx,
+    status:"Successful"
+  };
+
+}else{
+
   history.unshift(tx);
 
-  localStorage.setItem(
-    "ovaraTransactions",
-    JSON.stringify(history)
-  );
+}
+
+localStorage.setItem(
+  "ovaraTransactions",
+  JSON.stringify(history)
+);
 }
 
 function finish(){

@@ -163,7 +163,7 @@ function loadBanks(){
 if(!banks.length)return;
 
 container.innerHTML=banks.map(bank=>`
-<div class="bank-card">
+<div class="bank-card" onclick="startWithdrawal(${banks.indexOf(bank)})" style="cursor:pointer;">
 
 <div class="bank-info">
 
@@ -183,6 +183,17 @@ ${bank.primary?'<div class="badge">PRIMARY</div>':""}
 }
 
 loadBanks();
+function startWithdrawal(index) {
+  const selectedBank = banks[index];
+
+  localStorage.setItem(
+    "ovaraSelectedBank",
+    JSON.stringify(selectedBank)
+  );
+
+  window.location.href = "withdraw.html";
+}
+  
 </script>
 
 </body>

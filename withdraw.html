@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Withdraw — OVARA</title>
+
+<style>
+:root{
+--bg:#f5f7fb;
+--surface:#ffffff;
+--text:#111827;
+--muted:#6b7280;
+--border:#e5e7eb;
+--accent:#111827;
+--shadow:0 10px 30px rgba(0,0,0,.08);
+}
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:Arial,Helvetica,sans-serif;
+background:var(--bg);
+color:var(--text);
+}
+
+header{
+display:flex;
+align-items:center;
+gap:15px;
+padding:20px;
+}
+
+.back{
+width:42px;
+height:42px;
+border:none;
+border-radius:12px;
+background:var(--surface);
+box-shadow:var(--shadow);
+font-size:18px;
+cursor:pointer;
+}
+
+.container{
+padding:0 20px 120px;
+}
+
+.subtitle{
+font-size:14px;
+color:var(--muted);
+margin-top:4px;
+}
+
+.card{
+background:var(--surface);
+border:1px solid var(--border);
+border-radius:20px;
+padding:18px;
+box-shadow:var(--shadow);
+margin-top:20px;
+}
+
+.bank-row{
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.bank-name{
+font-size:17px;
+font-weight:700;
+}
+
+.bank-details{
+font-size:13px;
+color:var(--muted);
+margin-top:4px;
+}
+
+.bank-icon{
+font-size:24px;
+}
+
+.amount-label{
+text-align:center;
+color:var(--muted);
+font-size:14px;
+}
+
+.amount-input{
+width:100%;
+border:none;
+outline:none;
+background:transparent;
+text-align:center;
+font-size:40px;
+font-weight:700;
+color:var(--text);
+margin:10px 0;
+}
+
+.amount-note{
+text-align:center;
+font-size:13px;
+color:var(--muted);
+}
+
+.balance-row{
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.balance-title{
+font-size:13px;
+color:var(--muted);
+}
+
+.balance-value{
+font-size:18px;
+font-weight:700;
+}
+
+.security{
+display:flex;
+gap:12px;
+align-items:flex-start;
+}
+
+.security-icon{
+font-size:22px;
+}
+
+.security p{
+font-size:13px;
+color:var(--muted);
+line-height:1.5;
+}
+
+.continue-btn{
+position:fixed;
+left:20px;
+right:20px;
+bottom:25px;
+padding:17px;
+border:none;
+border-radius:16px;
+font-size:16px;
+font-weight:700;
+background:#d1d5db;
+color:#fff;
+cursor:not-allowed;
+transition:.25s;
+}
+
+.continue-btn.active{
+background:var(--accent);
+cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<button class="back" onclick="history.back()">←</button>
+
+<div>
+<h2>Withdraw</h2>
+<div class="subtitle">Transfer funds to your linked bank.</div>
+</div>
+</header>
+
+<div class="container">
+
+<div class="card">
+<div class="bank-row">
+
+<div>
+<div class="bank-name" id="nickname">Main Account</div>
+<div class="bank-details" id="bankInfo">Access Bank ••••3486</div>
+</div>
+
+<div class="bank-icon">🏦</div>
+
+</div>
+</div>
+
+<div class="card">
+
+<div class="amount-label">Amount</div>
+
+<input
+id="amountInput"
+class="amount-input"
+type="text"
+placeholder="₦0"
+inputmode="numeric"
+oninput="formatAmount()">
+
+<div class="amount-note">
+Enter withdrawal amount
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="balance-row">
+
+<div>
+<div class="balance-title">Available balance</div>
+<div class="balance-value">₦0.00</div>
+</div>
+
+<div style="font-size:22px;">💳</div>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="security">
+
+<div class="security-icon">🔐</div>
+
+<div>
+<strong>OVARA Security</strong>
+<p>
+Your withdrawal will be protected with your Transaction PIN.
+</p>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<button id="continueBtn" class="continue-btn" disabled>
+Continue
+</button>
+
+<script>
+const selectedBank =
+JSON.parse(localStorage.getItem("ovaraSelectedBank"));
+
+if(selectedBank){
+
+document.getElementById("nickname").textContent =
+selectedBank.nickname || "Main Account";
+
+document.getElementById("bankInfo").textContent =
+`${selectedBank.bank} ••••${selectedBank.accountNumber.slice(-4)}`;
+
+}
+
+function formatAmount(){
+
+const input =
+document.getElementById("amountInput");
+
+let numbers =
+input.value.replace(/\D/g,"");
+
+if(numbers===""){
+
+input.value="";
+
+disableButton();
+
+return;
+
+}
+
+const formatted =
+Number(numbers).toLocaleString("en-NG");
+
+input.value="₦"+formatted;
+
+enableButton();
+
+}
+
+function enableButton(){
+
+const btn =
+document.getElementById("continueBtn");
+
+btn.disabled=false;
+btn.classList.add("active");
+
+}
+
+function disableButton(){
+
+const btn =
+document.getElementById("continueBtn");
+
+btn.disabled=true;
+btn.classList.remove("active");
+
+}
+
+document
+.getElementById("continueBtn")
+.addEventListener("click",()=>{
+
+const amount =
+document
+.getElementById("amountInput")
+.value;
+
+localStorage.setItem(
+"ovaraWithdrawAmount",
+amount
+);
+
+window.location.href=
+"withdraw-confirm.html";
+
+});
+</script>
+
+</body>
+</html>

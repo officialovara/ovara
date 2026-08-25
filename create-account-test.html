@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OVARA Test</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+
+<style>
+body{
+  font-family:Arial;
+  background:#0b0f19;
+  color:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:100vh;
+}
+.box{
+  width:320px;
+}
+button{
+  width:100%;
+  padding:16px;
+  margin:10px 0;
+  border:none;
+  border-radius:12px;
+}
+</style>
+</head>
+<body>
+
+<div class="box">
+
+<h2>OVARA Button Test</h2>
+
+<button onclick="goBack()">⬅ Go Back</button>
+
+<button onclick="goToLogin()">Log In</button>
+
+<button onclick="testSupabase()">Test Supabase</button>
+
+</div>
+
+<script>
+const supabaseClient = supabase.createClient(
+"https://tckxdydtbcexgeabrqvt.supabase.co",
+"sb_publishable_r4oALOMW02JRRxJGEL4Qvw_9zj4DiKR"
+);
+
+function goBack(){
+  alert("Back button works.");
+}
+
+function goToLogin(){
+  alert("Login button works.");
+}
+
+async function testSupabase(){
+  alert("Supabase loaded successfully.");
+}
+</script>
+
+</body>
+</html>

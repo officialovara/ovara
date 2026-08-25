@@ -224,7 +224,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="OVARA">
-  
+ <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script> 
 </head>
 
 <body>
@@ -427,6 +427,10 @@
   </main>
 
   <script>
+    const supabase = window.supabase.createClient(
+  "https://tckxdydtbcexgeabrqvt.supabase.co",
+  "sb_publishable_r4oALOMW02JRRxJGEL4Qvw_9zj4DiKR"
+);
 
     function goBack() {
       window.location.href = "index.html";
@@ -436,26 +440,86 @@
       window.location.href = "login.html";
     }
 
-    function createAccount() {
+    
+async function createAccount() {
 
-  const fullName =
-    document.getElementById("fullName").value.trim();
+  const fullName = document.getElementById("fullName").value.trim();
+  const phone = document.getElementById("phone").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value;
+  const pin = document.getElementById("pin").value;
+  const terms = document.getElementById("terms").checked;
 
-  const phone =
-    document.getElementById("phone").value.trim();
+  if (!fullName || !phone || !email || !password || !pin) {
+    alert("Please complete all required fields.");
+    return;
+  }
 
-  const email =
-    document.getElementById("email").value.trim();
+  if (pin.length !== 6 || !/^\d+$/.test(pin)) {
+    alert("Your transaction PIN must contain exactly 6 digits.");
+    return;
+  }
 
-  const password =
-    document.getElementById("password").value;
+  if (!terms) {
+    alert("Please accept the OVARA terms and security requirements.");
+    return;
+  }
 
-  const pin =
-    document.getElementById("pin").value;
+  const button = document.querySelector(".create-btn");
+  button.disabled = true;
+  button.textContent = "Creating Account...";
 
-  const terms =
-    document.getElementById("terms").checked;
+  try {
 
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password
+    });
+
+    if (error) throw error;
+
+    const user = data.user;
+
+    if (!user) {
+      throw new Error("Account could not be created.");
+    }
+
+    await supabase.from("profiles").insert({
+      id: user.id,
+      full_name: fullName,
+      phone,
+      transaction_pin: pin,
+      debit_alert: document.querySelector('input[name="debitAlert"]:checked').value,
+      credit_alert: document.querySelector('input[name="creditAlert"]:checked').value
+    });
+
+    const accountNumber = () =>
+      String(Math.floor(1000000000 + Math.random() * 9000000000));
+
+    await supabase.from("accounts").insert([
+      { user_id: user.id, currency: "NGN", account_number: accountNumber() },
+      { user_id: user.id, currency: "USD", account_number: accountNumber() },
+      { user_id: user.id, currency: "GBP", account_number: accountNumber() },
+      { user_id: user.id, currency: "EUR", account_number: accountNumber() }
+    ]);
+
+    alert("OVARA account created successfully. Please check your email to verify your account.");
+
+    window.location.href = "login.html";
+
+  } catch (err) {
+
+    alert(err.message);
+
+  } finally {
+
+    button.disabled = false;
+    button.textContent = "Create OVARA Account";
+
+  }
+
+}
+    
 
   if (!fullName || !phone || !email || !password || !pin) {
 

@@ -462,17 +462,17 @@
     }
 
     // Check terms
-    if (!terms) {
-      alert("Please accept the OVARA terms and security requirements.");
-      return;
-    }
+if (!terms) {
+  alert("Please accept the OVARA terms and security requirements.");
+  return;
+}
 
-    const button = document.querySelector(".create-btn");
+const button = document.querySelector(".create-btn");
 
-    button.disabled = true;
-    button.textContent = "Creating Account...";
+button.disabled = true;
+button.textContent = "Creating Account...";
 
-    try {
+try {
 
       // Create Supabase authentication account
       const { data, error } = await supabaseClient.auth.signUp({
@@ -486,8 +486,8 @@
 
       const user = data.user;
 
-      if (!user) {
-        throw new Error("Account could not be created.");
+console.log(data.session);
+console.log(user);
       }
 
       // Save profile

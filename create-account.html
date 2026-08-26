@@ -486,8 +486,12 @@ try {
 
       const user = data.user;
 
-console.log(data.session);
-console.log(user);
+console.log("Session:", data.session);
+console.log("User:", user);
+
+if (!data.session) {
+  alert("DEBUG: No session was created.");
+}
       
 
       // Save profile

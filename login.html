@@ -148,6 +148,11 @@
       cursor: pointer;
     }
 
+    .login-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
     .divider {
       display: flex;
       align-items: center;
@@ -205,11 +210,14 @@
       line-height: 1.5;
     }
   </style>
-<link rel="manifest" href="manifest.json">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="OVARA">
-  
+
+  <link rel="manifest" href="manifest.json">
+
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="OVARA">
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 </head>
 
 <body>
@@ -217,32 +225,50 @@
   <main class="container">
 
     <div class="top">
-      <button class="back" onclick="goBack()">‹</button>
+      <button
+        class="back"
+        type="button"
+        onclick="goBack()"
+        aria-label="Go back"
+      >
+        ‹
+      </button>
+
       <div class="logo">OVARA</div>
     </div>
 
-    <div class="security-icon">🔐</div>
+    <div class="security-icon">
+      🔐
+    </div>
 
-    <h1>Welcome back - TEST</h1>
+    <h1>Welcome back</h1>
 
     <p class="intro">
       Log in securely to manage your OVARA accounts.
     </p>
 
     <div class="field">
-      <label for="identifier">Phone number or email</label>
+
+      <label for="identifier">
+        Email address
+      </label>
 
       <input
-        type="text"
+        type="email"
         id="identifier"
-        placeholder="Phone number or email"
+        placeholder="Enter your email address"
         autocomplete="username"
+        autocapitalize="none"
+        spellcheck="false"
       >
+
     </div>
 
     <div class="field">
 
-      <label for="password">Password</label>
+      <label for="password">
+        Password
+      </label>
 
       <div class="password-wrapper">
 
@@ -266,187 +292,17 @@
     </div>
 
     <div class="forgot">
-      <button onclick="forgotPassword()">
+
+      <button
+        type="button"
+        onclick="forgotPassword()"
+      >
         Forgot password?
       </button>
-    </div>
-
-    <button class="login-btn" onclick="login()">
-      Log In
-    </button>
-
-    <div class="divider">OR</div>
-
-    <button class="create-btn" onclick="createAccount()">
-      Create OVARA Account
-    </button>
-
-    <div class="security-box">
-
-      <strong>🔐 Secure login</strong>
-
-      <p>
-        OVARA may request additional verification when you sign in
-        from a new device or when unusual activity is detected.
-      </p>
 
     </div>
 
-    <div class="footer">
-      Never share your password, transaction PIN, OTP,
-      or security codes with anyone.
-    </div>
-
-  </main>
-
-  <script>
-
-  function login() {
-
-  const identifier =
-    document.getElementById("identifier").value.trim();
-
-  const password =
-    document.getElementById("password").value;
-
-
-  if (!identifier || !password) {
-
-    alert("Please enter your phone number/email and password.");
-    return;
-
-  }
-
-
-  const savedAccount =
-    localStorage.getItem("ovaraAccount");
-
-
-  if (!savedAccount) {
-
-    alert(
-      "No OVARA account was found. Please create an account first."
-    );
-
-    return;
-
-  }
-
-
-  const account =
-    JSON.parse(savedAccount);
-
-
-  const identifierMatches =
-    identifier.toLowerCase() === account.email.toLowerCase() ||
-    identifier === account.phone;
-
-
-  if (!identifierMatches) {
-
-    alert(
-      "Phone number or email is incorrect."
-    );
-
-    return;
-
-  }
-
-
-  if (password !== account.password) {
-
-    alert(
-      "Incorrect password."
-    );
-
-    return;
-
-  }
-
-
-  localStorage.setItem(
-    "ovaraLoggedIn",
-    "true"
-  );
-
-
-  window.location.href =
-    "dashboard.html";
-
-  }
-
-
-  function togglePassword() {
-
-    const passwordInput =
-      document.getElementById("password");
-
-    const button =
-      document.querySelector(".show-password");
-
-    if (passwordInput.type === "password") {
-
-      passwordInput.type = "text";
-      button.textContent = "Hide";
-
-    } else {
-
-      passwordInput.type = "password";
-      button.textContent = "Show";
-
-    }
-  }
-
-
-  function forgotPassword() {
-
-    alert("Password recovery will be connected securely.");
-
-  }
-
-
-  function createAccount() {
-
-  window.location.href = "create-account.html";
-
-  }
-
-
-  function goBack() {
-
-    window.location.href = "index.html";
-
-  }
-
-
-  // OVARA PWA
-
-  if ("serviceWorker" in navigator) {
-
-    window.addEventListener("load", () => {
-
-      navigator.serviceWorker.register("./sw.js")
-
-        .then(() => {
-
-          console.log("OVARA service worker registered.");
-
-        })
-
-        .catch(error => {
-
-          console.error(
-            "OVARA service worker registration failed:",
-            error
-          );
-
-        });
-
-    });
-
-  }
-
-</script>
-
-</body>
-</html>
+    <button
+      class="login-btn"
+      type="button"
+     
